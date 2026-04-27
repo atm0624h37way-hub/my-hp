@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A・I・E・P（AIエキスパート） | 経営・ITコンサルティング</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent:   #00d4e8;
+      --accent2:  #7b61ff;
+      --bg:       #0e1f3a;
+      --surface:  #162847;
+      --border:   rgba(0,212,232,0.18);
+      --text:     #e8eaf0;
+      --muted:    #7a8fae;
+      --nav-h:    64px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 100;
+      transition: background 0.3s, backdrop-filter 0.3s, box-shadow 0.3s;
+    }
+
+    nav.scrolled {
+      background: rgba(14, 31, 58, 0.85);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #2a3f5f;
+      text-decoration: none;
+      font-size: 0.875rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav.scrolled .nav-links a { color: var(--muted); }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: 24px;
+      font-weight: 600 !important;
+      color: var(--bg) !important;
+      -webkit-text-fill-color: var(--bg) !important;
+    }
+
+    /* ========== HERO ========== */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 560px;
+      overflow: hidden;
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    .hero-slide.active { opacity: 1; }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.50) 0%,
+        rgba(255,255,255,0.68) 55%,
+        rgba(255,255,255,0.90) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      padding: 0 24px;
+    }
+
+    /* スライドナビドット */
+    .hero-dots {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(14,31,58,0.22);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.3s, width 0.3s;
+    }
+
+    .dot.active {
+      width: 28px;
+      background: #0e1f3a;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #0098aa;
+      border: 1px solid rgba(0,152,170,0.35);
+      background: rgba(0,212,232,0.08);
+      padding: 6px 18px;
+      border-radius: 24px;
+      margin-bottom: 28px;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+      color: #0e1f3a;
+    }
+
+    .hero-title span {
+      background: linear-gradient(90deg, #0098aa, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: #4a5e7a;
+      margin-bottom: 40px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #0e1f3a;
+      font-weight: 700;
+      padding: 14px 36px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,212,232,0.35);
+    }
+
+    /* ========== SECTION COMMON ========== */
+    section {
+      padding: 96px 40px;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 560px;
+      font-size: 0.95rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ========== CONCEPT ========== */
+    #concept { background: var(--surface); }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-top: 48px;
+    }
+
+    .concept-text p {
+      color: var(--muted);
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+
+    .concept-img {
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .concept-img img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .concept-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      pointer-events: none;
+    }
+
+    /* ========== SERVICE ========== */
+    #service { background: var(--bg); position: relative; overflow: hidden; }
+
+    #service::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.5;
+    }
+
+    .service-header { position: relative; z-index: 1; }
+    .service-header .section-desc { margin-bottom: 48px; }
+
+    .service-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .service-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 28px;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .service-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,212,232,0.12);
+    }
+
+    .service-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #00d4e8, #7b61ff);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 24px rgba(0,212,232,0.4);
+    }
+
+    .service-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .service-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* ========== PRICE ========== */
+    #price { background: var(--surface); }
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+      align-items: start;
+    }
+
+    .price-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 28px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .price-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(0,212,232,0.15);
+      position: relative;
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: var(--bg);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 18px;
+      border-radius: 24px;
+      white-space: nowrap;
+    }
+
+    .price-plan {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .price-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .price-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .price-amount {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .price-amount span {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .price-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .price-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .price-features li::before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2300d4e8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8l3 3 7-7'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      margin-top: 2px;
+    }
+
+    .btn-outline {
+      display: block;
+      text-align: center;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      background: rgba(0,212,232,0.06);
+    }
+
+    .btn-filled {
+      display: block;
+      text-align: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: var(--bg);
+      padding: 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 700;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-filled:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,212,232,0.3);
+    }
+
+    /* ========== WORKS ========== */
+    #works { background: var(--bg); }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .works-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .works-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .works-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .works-body {
+      padding: 24px;
+    }
+
+    .works-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 24px;
+      margin-bottom: 12px;
+    }
+
+    .works-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .works-card p {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ========== ACCESS ========== */
+    #access { background: var(--surface); }
+
+    .access-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-top: 48px;
+    }
+
+    .map-placeholder {
+      width: 100%;
+      height: 340px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    .map-placeholder iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .access-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .access-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .access-icon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 10px;
+      background: rgba(0,212,232,0.08);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .access-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .access-row-content label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .access-row-content p {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .access-contact-btn {
+      display: inline-block;
+      margin-top: 24px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: var(--bg);
+      font-weight: 700;
+      padding: 13px 32px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .access-contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,212,232,0.3);
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-size: 0.95rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-nav a {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-nav a:hover { color: var(--accent); }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--muted);
+      width: 100%;
+      text-align: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      section { padding: 72px 24px; }
+      nav { padding: 0 24px; }
+
+      .concept-grid,
+      .access-grid { grid-template-columns: 1fr; }
+
+      .concept-img { order: -1; }
+
+      .service-grid,
+      .price-grid,
+      .works-grid { grid-template-columns: 1fr; }
+
+      .price-card.featured { margin-top: 16px; }
+
+      footer { flex-direction: column; align-items: flex-start; }
+      .footer-nav { flex-wrap: wrap; }
+    }
+
+    @media (max-width: 540px) {
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .hero-title { font-size: 1.8rem; }
+      section { padding: 56px 16px; }
+      footer { padding: 32px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ナビゲーション -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">A・I・E・P</a>
+    <ul class="nav-links">
+      <li><a href="#concept">Concept</a></li>
+      <li><a href="#service">Service</a></li>
+      <li><a href="#price">Price</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#access" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ヒーロー（スライドショー） -->
+  <section id="hero">
+
+    <!-- スライド1：クライアントとの対話 -->
+    <div class="hero-slide active"
+         style="background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1600&auto=format&fit=crop&q=80')">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <span class="hero-label">AI × Management Consulting</span>
+        <h1 class="hero-title">
+          AIを活用して<br>
+          <span>あなたの事業の成長</span>を<br>サポート
+        </h1>
+        <p class="hero-sub">まず、あなたの課題をじっくり聞くことから始めます</p>
+        <a href="#service" class="btn-primary">サービスを見る</a>
+      </div>
+    </div>
+
+    <!-- スライド2：AI・IT技術 -->
+    <div class="hero-slide"
+         style="background-image:url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1600&auto=format&fit=crop&q=80')">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <span class="hero-label">AI Technology</span>
+        <h1 class="hero-title">
+          最新のAI技術を、<br>
+          <span>ビジネスの現場</span>へ
+        </h1>
+        <p class="hero-sub">難解な技術を「使えるツール」に変えるのが私たちの仕事</p>
+        <a href="#service" class="btn-primary">サービスを見る</a>
+      </div>
+    </div>
+
+    <!-- スライド3：クライアント・AI・ITの協働 -->
+    <div class="hero-slide"
+         style="background-image:url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&auto=format&fit=crop&q=80')">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <span class="hero-label">Collaboration</span>
+        <h1 class="hero-title">
+          クライアント・AI・ITが<br>
+          <span>一体となって</span>創る
+        </h1>
+        <p class="hero-sub">人・企業・テクノロジーが融合し、最高の成果を生み出します</p>
+        <a href="#service" class="btn-primary">サービスを見る</a>
+      </div>
+    </div>
+
+    <!-- スライド4：成果・成長 -->
+    <div class="hero-slide"
+         style="background-image:url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1600&auto=format&fit=crop&q=80')">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <span class="hero-label">Growth</span>
+        <h1 class="hero-title">
+          共に創り上げる、<br>
+          <span>事業の未来</span>
+        </h1>
+        <p class="hero-sub">戦略立案から現場実装まで、あなたの成長に伴走します</p>
+        <a href="#service" class="btn-primary">無料相談を申し込む</a>
+      </div>
+    </div>
+
+    <!-- ドットナビゲーション -->
+    <div class="hero-dots">
+      <button class="dot active" data-index="0"></button>
+      <button class="dot" data-index="1"></button>
+      <button class="dot" data-index="2"></button>
+      <button class="dot" data-index="3"></button>
+    </div>
+
+  </section>
+
+  <!-- コンセプト -->
+  <section id="concept">
+    <div class="container">
+      <p class="section-label">01 — Concept</p>
+      <h2 class="section-title">AIの力で、<br>中小企業の経営課題を解決する</h2>
+      <div class="concept-grid">
+        <div class="concept-text">
+          <p>
+            A・I・E・P（AIエキスパート）は、経営コンサルティングと最新AI技術を融合させた専門事務所です。
+          </p>
+          <p>
+            「AIは大企業だけのもの」という常識を覆し、中小企業・スタートアップが競争力を高めるための実践的な支援を提供します。
+          </p>
+          <p>
+            戦略立案から現場への実装まで、一貫してサポート。難解な技術を「使えるビジネスツール」に変えることが私たちの使命です。
+          </p>
+        </div>
+        <div class="concept-img">
+          <img
+            src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop&q=80"
+            alt="チームミーティングのイメージ"
+            loading="lazy"
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- サービス -->
+  <section id="service">
+    <div class="container service-header">
+      <p class="section-label">02 — Service</p>
+      <h2 class="section-title">提供サービス</h2>
+      <p class="section-desc">課題の規模や段階に応じた3つの専門サービスで、貴社の成長を支援します。</p>
+    </div>
+    <div class="container">
+      <div class="service-grid">
+
+        <!-- 経営戦略 -->
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/>
+              <path d="M13 13l6 6"/>
+            </svg>
+          </div>
+          <h3>経営戦略コンサルティング</h3>
+          <p>ビジョン策定から事業計画・KPI設計まで、データドリブンな経営判断を支援。AI分析を活用して競合優位性を明確化します。</p>
+        </div>
+
+        <!-- DX推進 -->
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+              <path d="M7 8h10M7 12h6"/>
+            </svg>
+          </div>
+          <h3>DX推進支援</h3>
+          <p>業務フローの可視化・自動化からAIツール導入まで、段階的なデジタルトランスフォーメーションを実現。現場定着まで伴走します。</p>
+        </div>
+
+        <!-- ITシステム -->
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h3>ITシステム導入</h3>
+          <p>CRM・ERP・生成AIの選定から導入・保守まで一括対応。ベンダー中立の立場で、貴社に最適なソリューションを提案します。</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 料金プラン -->
+  <section id="price">
+    <div class="container">
+      <p class="section-label">03 — Price</p>
+      <h2 class="section-title">料金プラン</h2>
+      <p class="section-desc">ご予算・ご状況に合わせて3つのプランをご用意しています。詳細はお問い合わせください。</p>
+
+      <div class="price-grid">
+
+        <!-- ライト -->
+        <div class="price-card">
+          <p class="price-plan">Light</p>
+          <p class="price-name">ライトプラン</p>
+          <p class="price-desc">スポットコンサルティング（単発）</p>
+          <div class="price-amount">
+            要お問い合わせ <span>/ セッション</span>
+          </div>
+          <ul class="price-features">
+            <li>初回ヒアリング（60分）</li>
+            <li>課題診断レポート（簡易版）</li>
+            <li>AI活用アドバイス</li>
+            <li>メールサポート（1週間）</li>
+          </ul>
+          <a href="#access" class="btn-outline">お問い合わせ</a>
+        </div>
+
+        <!-- スタンダード（推奨） -->
+        <div class="price-card featured">
+          <span class="featured-badge">Recommended</span>
+          <p class="price-plan">Standard</p>
+          <p class="price-name">スタンダードプラン</p>
+          <p class="price-desc">月次顧問契約</p>
+          <div class="price-amount">
+            要お問い合わせ <span>/ 月</span>
+          </div>
+          <ul class="price-features">
+            <li>月次定例MTG（2回）</li>
+            <li>経営課題の継続サポート</li>
+            <li>AI導入ロードマップ策定</li>
+            <li>チャット・メールサポート（無制限）</li>
+            <li>四半期レポート作成</li>
+          </ul>
+          <a href="#access" class="btn-filled">お問い合わせ</a>
+        </div>
+
+        <!-- プレミアム -->
+        <div class="price-card">
+          <p class="price-plan">Premium</p>
+          <p class="price-name">プレミアムプラン</p>
+          <p class="price-desc">DX推進フルサポート</p>
+          <div class="price-amount">
+            要お問い合わせ <span>/ 月〜</span>
+          </div>
+          <ul class="price-features">
+            <li>スタンダード内容すべて含む</li>
+            <li>週次MTG対応</li>
+            <li>システム要件定義・導入支援</li>
+            <li>現場研修・定着サポート</li>
+            <li>専任コンサルタントアサイン</li>
+          </ul>
+          <a href="#access" class="btn-outline">お問い合わせ</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 実績・事例 -->
+  <section id="works">
+    <div class="container">
+      <p class="section-label">04 — Works</p>
+      <h2 class="section-title">支援実績・事例</h2>
+      <p class="section-desc">様々な業種のクライアント企業に対し、AI活用・経営改革を支援してきました。</p>
+
+      <div class="works-grid">
+
+        <div class="works-card">
+          <img
+            class="works-img"
+            src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&auto=format&fit=crop&q=80"
+            alt="製造業DX事例"
+            loading="lazy"
+          >
+          <div class="works-body">
+            <span class="works-tag">製造業</span>
+            <h3>生産ラインの予知保全AI導入</h3>
+            <p>設備センサーデータを活用した異常検知AIを導入し、ダウンタイムを約35%削減。現場スタッフへの研修から定着まで伴走支援。</p>
+          </div>
+        </div>
+
+        <div class="works-card">
+          <img
+            class="works-img"
+            src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&auto=format&fit=crop&q=80"
+            alt="小売業DX事例"
+            loading="lazy"
+          >
+          <div class="works-body">
+            <span class="works-tag">小売業</span>
+            <h3>需要予測AIによる在庫最適化</h3>
+            <p>売上データと外部環境変数を組み合わせた需要予測モデルを構築。過剰在庫コストを年間20%削減し、欠品率も大幅に改善。</p>
+          </div>
+        </div>
+
+        <div class="works-card">
+          <img
+            class="works-img"
+            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&auto=format&fit=crop&q=80"
+            alt="医療機関DX事例"
+            loading="lazy"
+          >
+          <div class="works-body">
+            <span class="works-tag">医療・クリニック</span>
+            <h3>業務自動化による残業時間削減</h3>
+            <p>受付・カルテ入力・診療報酬請求などの定型業務をRPAとAIで自動化。スタッフの月間残業時間を平均40時間削減。</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- アクセス・お問い合わせ -->
+  <section id="access">
+    <div class="container">
+      <p class="section-label">05 — Access</p>
+      <h2 class="section-title">アクセス・お問い合わせ</h2>
+      <p class="section-desc">まずはお気軽にご連絡ください。初回相談は無料で承っております。</p>
+
+      <div class="access-grid">
+
+        <!-- 地図 -->
+        <div class="map-placeholder">
+          <!-- 【所在地確定後にGoogle Maps iframeに差し替え】 -->
+          <span>📍 地図はこちらに表示されます</span>
+        </div>
+
+        <!-- 連絡先情報 -->
+        <div class="access-info">
+
+          <div class="access-row">
+            <div class="access-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div class="access-row-content">
+              <label>所在地</label>
+              <p>【所在地】</p>
+            </div>
+          </div>
+
+          <div class="access-row">
+            <div class="access-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.59a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </div>
+            <div class="access-row-content">
+              <label>電話番号</label>
+              <p>【電話番号】</p>
+            </div>
+          </div>
+
+          <div class="access-row">
+            <div class="access-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div class="access-row-content">
+              <label>営業時間</label>
+              <p>平日 9:00〜18:00<br><span style="color:var(--muted);font-size:0.85rem">土日祝は要予約</span></p>
+            </div>
+          </div>
+
+          <div class="access-row">
+            <div class="access-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div class="access-row-content">
+              <label>メールアドレス</label>
+              <p>【メールアドレス】</p>
+            </div>
+          </div>
+
+          <a href="mailto:【メールアドレス】" class="access-contact-btn">無料相談を申し込む</a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer>
+    <span class="footer-logo">A・I・E・P</span>
+    <ul class="footer-nav">
+      <li><a href="#concept">Concept</a></li>
+      <li><a href="#service">Service</a></li>
+      <li><a href="#price">Price</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#access">Access</a></li>
+    </ul>
+    <p class="footer-copy">© 2025 A・I・E・P（AIエキスパート）. All rights reserved.</p>
+  </footer>
+
+  <script>
+    /* スクロールでナビ背景を変化させる */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    /* ヒーロースライドショー */
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots   = document.querySelectorAll('.dot');
+    let current  = 0;
+    let timer;
+
+    function goTo(n) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (n + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      timer = setInterval(() => goTo(current + 1), 5000);
+    }
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => { goTo(i); startTimer(); });
+    });
+
+    startTimer();
+  </script>
+</body>
+</html>

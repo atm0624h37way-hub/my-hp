@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>跡見仁俊 | AI Engineer</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;700&display=swap');
+
+    :root {
+      --accent: #00d4e8;
+      --accent2: #7b61ff;
+      --bg: #0e1f3a;
+      --surface: #162847;
+      --border: rgba(0, 212, 232, 0.18);
+      --text: #e8eaf0;
+      --muted: #7a8fae;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 背景グリッド ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,232,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,232,.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── グローエフェクト ── */
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-orb.one {
+      width: 500px; height: 500px;
+      background: var(--accent);
+      top: -150px; left: -150px;
+    }
+    .glow-orb.two {
+      width: 400px; height: 400px;
+      background: var(--accent2);
+      bottom: -100px; right: -100px;
+    }
+
+    /* ── レイアウト ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+    }
+
+    /* ── ヘッダー ── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      margin-bottom: 64px;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, #1a3a5c, #0e2240);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .avatar-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      z-index: 0;
+      filter: blur(12px);
+      opacity: 0.5;
+    }
+
+    .header-text h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      background: linear-gradient(90deg, #fff 30%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-text .role {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .role-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* ── セクション共通 ── */
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    section:hover {
+      border-color: rgba(0, 240, 255, 0.35);
+    }
+
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.5;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 16px; height: 1px;
+      background: var(--accent);
+    }
+
+    /* ── About ── */
+    .about-text {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: #b0bcd4;
+      font-weight: 300;
+    }
+
+    /* ── スキル ── */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill-badge {
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      border: 1px solid;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .skill-badge:hover {
+      transform: translateY(-2px);
+    }
+
+    .badge-cyan {
+      color: var(--accent);
+      border-color: rgba(0,240,255,0.35);
+      background: rgba(0,240,255,0.06);
+    }
+
+    .badge-purple {
+      color: #a78bfa;
+      border-color: rgba(167,139,250,0.35);
+      background: rgba(167,139,250,0.06);
+    }
+
+    .badge-pink {
+      color: #f472b6;
+      border-color: rgba(244,114,182,0.35);
+      background: rgba(244,114,182,0.06);
+    }
+
+    /* ── 趣味 ── */
+    .hobby-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .hobby-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .hobby-item:hover {
+      background: rgba(0,240,255,0.06);
+      transform: translateY(-3px);
+    }
+
+    .hobby-item .emoji { font-size: 1.8rem; margin-bottom: 8px; }
+    .hobby-item .label { font-size: 0.85rem; color: #8a9abc; }
+
+    /* ── フッター ── */
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── レスポンシブ ── */
+    @media (max-width: 540px) {
+      header { flex-direction: column; text-align: center; }
+      .header-text .role { justify-content: center; }
+      .header-text h1 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-orb one"></div>
+  <div class="glow-orb two"></div>
+
+  <main>
+    <!-- ヘッダー -->
+    <header>
+      <div class="avatar-wrap">
+        <div class="avatar">
+          <!-- cool guy SVG -->
+          <svg width="90" height="96" viewBox="0 0 90 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- body / dark turtleneck -->
+            <path d="M14 96 C14 74 28 67 45 67 C62 67 76 74 76 96" fill="#111e30"/>
+            <!-- turtleneck collar -->
+            <rect x="37" y="60" width="16" height="12" rx="4" fill="#1a2a40"/>
+            <!-- neck -->
+            <rect x="40" y="52" width="10" height="12" rx="3" fill="#c49060"/>
+            <!-- long hair — left side flowing down -->
+            <path d="M27 30 C24 38 22 50 23 65 C26 60 27 50 28 42 C28 38 28 34 27 30Z" fill="#1c1c1c"/>
+            <!-- long hair — right side flowing down -->
+            <path d="M63 30 C66 38 68 50 67 65 C64 60 63 50 62 42 C62 38 62 34 63 30Z" fill="#1c1c1c"/>
+            <!-- face — tall/slim oval (面長) -->
+            <ellipse cx="45" cy="35" rx="15" ry="22" fill="#d4a070"/>
+            <!-- hair top — center parted long hair -->
+            <path d="M30 26 C30 10 38 6 45 6 C52 6 60 10 60 26 C58 16 53 12 45 12 C37 12 32 16 30 26Z" fill="#1c1c1c"/>
+            <!-- center part line -->
+            <path d="M45 6 L45 14" stroke="#2a2a2a" stroke-width="1.5"/>
+            <!-- hair flowing over shoulders -->
+            <path d="M30 26 C28 32 26 42 25 55" stroke="#1c1c1c" stroke-width="5" stroke-linecap="round"/>
+            <path d="M60 26 C62 32 64 42 65 55" stroke="#1c1c1c" stroke-width="5" stroke-linecap="round"/>
+            <!-- ears -->
+            <ellipse cx="30" cy="36" rx="2.5" ry="4" fill="#c49060"/>
+            <ellipse cx="60" cy="36" rx="2.5" ry="4" fill="#c49060"/>
+            <!-- thin eyebrows -->
+            <path d="M33 24 Q39 22 42 23" stroke="#2a1a0a" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+            <path d="M48 23 Q51 22 57 24" stroke="#2a1a0a" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+            <!-- eyes — sharp, half-lidded -->
+            <ellipse cx="38" cy="28" rx="4.5" ry="3.2" fill="#fff"/>
+            <ellipse cx="52" cy="28" rx="4.5" ry="3.2" fill="#fff"/>
+            <ellipse cx="38.5" cy="28.5" rx="2.8" ry="2.8" fill="#3a2010"/>
+            <ellipse cx="52.5" cy="28.5" rx="2.8" ry="2.8" fill="#3a2010"/>
+            <ellipse cx="39" cy="28" rx="1.2" ry="1.2" fill="#0a0a0a"/>
+            <ellipse cx="53" cy="28" rx="1.2" ry="1.2" fill="#0a0a0a"/>
+            <!-- upper eyelid shadow -->
+            <path d="M33.5 26 Q38 25 42.5 26" stroke="#1a0a00" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M47.5 26 Q52 25 56.5 26" stroke="#1a0a00" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- slim nose -->
+            <path d="M44 34 L43 40 Q45 41.5 47 40 L46 34" stroke="#b07840" stroke-width="1" fill="none" stroke-linecap="round"/>
+            <!-- cool slight smirk -->
+            <path d="M39 46 Q45 50 51 47" stroke="#9a6040" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+            <!-- highlight on face -->
+            <ellipse cx="40" cy="32" rx="2" ry="3" fill="#e8b888" opacity="0.25"/>
+          </svg>
+        </div>
+      </div>
+      <div class="header-text">
+        <h1>跡見 仁俊</h1>
+        <p class="role">
+          <span class="role-dot"></span>
+          AI Engineer
+        </p>
+      </div>
+    </header>
+
+    <!-- About -->
+    <section>
+      <p class="section-label">About</p>
+      <p class="about-text">
+        AIエンジニアとして、機械学習・自然言語処理の領域で活動しています。<br />
+        テクノロジーで世界をちょっとだけ便利にすることを目標に、<br />
+        日々コードを書いてはボーっとして、おいしいものを食べてまたコードを書く。<br />
+        そんな毎日を送っています。
+      </p>
+    </section>
+
+    <!-- スキル -->
+    <section>
+      <p class="section-label">Skills</p>
+      <div class="skills-grid">
+        <span class="skill-badge badge-cyan">Python</span>
+        <span class="skill-badge badge-cyan">Machine Learning</span>
+        <span class="skill-badge badge-cyan">LLM / RAG</span>
+        <span class="skill-badge badge-purple">PyTorch</span>
+        <span class="skill-badge badge-purple">Transformers</span>
+        <span class="skill-badge badge-purple">FastAPI</span>
+        <span class="skill-badge badge-pink">Prompt Engineering</span>
+        <span class="skill-badge badge-pink">Claude API</span>
+      </div>
+    </section>
+
+    <!-- 趣味 -->
+    <section>
+      <p class="section-label">Hobbies & Interests</p>
+      <div class="hobby-list">
+        <div class="hobby-item">
+          <div class="emoji">🎰</div>
+          <div class="label">パチンコ</div>
+        </div>
+        <div class="hobby-item">
+          <div class="emoji">🎲</div>
+          <div class="label">パチスロ</div>
+        </div>
+        <div class="hobby-item">
+          <div class="emoji">🎌</div>
+          <div class="label">アニメ</div>
+        </div>
+        <div class="hobby-item">
+          <div class="emoji">📚</div>
+          <div class="label">自己啓発</div>
+        </div>
+        <div class="hobby-item">
+          <div class="emoji">☁️</div>
+          <div class="label">ボーっとすること</div>
+        </div>
+        <div class="hobby-item">
+          <div class="emoji">🍜</div>
+          <div class="label">美味しいものを食べること</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>© 2026 跡見仁俊 — AI Engineer</footer>
+  </main>
+</body>
+</html>
