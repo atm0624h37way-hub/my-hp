@@ -1,0 +1,17 @@
+{
+  "name": "aiep-chatbot-server",
+  "version": "1.0.0",
+  "description": "A・I・E・P AIチャットボット バックエンドサーバー",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5"
+  }
+}
