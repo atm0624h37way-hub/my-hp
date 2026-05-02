@@ -255,6 +255,52 @@
     .hobby-item .emoji { font-size: 1.8rem; margin-bottom: 8px; }
     .hobby-item .label { font-size: 0.85rem; color: #8a9abc; }
 
+    /* ── 会社リンクカード ── */
+    .company-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .company-link-info { flex: 1; }
+
+    .company-link-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+
+    .company-link-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .company-link-arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0,212,232,0.15), rgba(123,97,255,0.15));
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    section:hover .company-link-arrow {
+      transform: translateX(4px);
+      background: linear-gradient(135deg, rgba(0,212,232,0.28), rgba(123,97,255,0.28));
+    }
+
     /* ── フッター ── */
     footer {
       text-align: center;
@@ -391,6 +437,25 @@
           <div class="label">美味しいものを食べること</div>
         </div>
       </div>
+    </section>
+
+    <!-- A・I・E・P リンク -->
+    <section>
+      <p class="section-label">Company</p>
+      <a class="company-link" href="company.html">
+        <div class="company-link-info">
+          <p class="company-link-name">A・I・E・P（AIエキスパート）</p>
+          <p class="company-link-desc">経営・ITコンサルティング — AIを活用した事業成長支援</p>
+        </div>
+        <div class="company-link-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+      </a>
     </section>
 
     <footer>© 2026 跡見仁俊 — AI Engineer</footer>
