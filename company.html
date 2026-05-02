@@ -1462,8 +1462,8 @@
     const chatSend    = document.getElementById('chat-send');
     const chatMsgs    = document.getElementById('chat-messages');
 
-    // バックエンドのURL（開発環境: localhost:3000）
-    const API_URL = 'http://localhost:3000/api/chat';
+    // バックエンドのURL（相対パスでローカル・Vercel 両対応）
+    const API_URL = '/api/chat';
 
     // 会話履歴（Claude API形式）
     let history = [];
