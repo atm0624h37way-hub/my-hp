@@ -7,6 +7,7 @@
   "routes": [
     { "src": "/api/chat",        "dest": "/api/chat.js" },
     { "src": "/company.html",    "dest": "/company.html" },
+    { "src": "/portfolio.html",  "dest": "/portfolio.html" },
     { "src": "/",                "dest": "/index.html" }
   ]
 }

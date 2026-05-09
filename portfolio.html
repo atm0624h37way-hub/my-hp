@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>跡見仁俊 | ポートフォリオ</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+JP:wght@300;400;700&display=swap');
+
+    :root {
+      --accent:  #00d4e8;
+      --accent2: #7b61ff;
+      --bg:      #0e1f3a;
+      --surface: #162847;
+      --border:  rgba(0,212,232,0.18);
+      --text:    #e8eaf0;
+      --muted:   #7a8fae;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* 背景グリッド */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,232,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,232,.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* グローオーブ */
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.14;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-orb.one { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -200px; }
+    .glow-orb.two { width: 500px; height: 500px; background: var(--accent2); bottom: -150px; right: -150px; }
+
+    /* ===== ナビゲーション ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(14,31,58,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+    }
+
+    .nav-logo {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      background: linear-gradient(90deg, #fff 40%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.86rem;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-cta {
+      padding: 8px 20px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff !important;
+      font-weight: 600;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ===== セクション共通 ===== */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 24px;
+    }
+
+    .section-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .section-title span {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ===== ヒーロー ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(0,212,232,0.08);
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.65); }
+    }
+
+    .hero-avatar {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, #1a3a5c, #0e2240);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      position: relative;
+    }
+
+    .hero-avatar::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      z-index: -1;
+    }
+
+    .hero-name {
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 1.05;
+      background: linear-gradient(135deg, #fff 35%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.45rem);
+      font-weight: 300;
+      color: #c8d4e8;
+      margin-bottom: 14px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-desc {
+      font-size: 0.93rem;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 500px;
+      margin: 0 auto 40px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 72px;
+    }
+
+    .btn-primary {
+      padding: 13px 30px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.86; transform: translateY(-2px); }
+
+    .btn-secondary {
+      padding: 13px 30px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(0,212,232,0.06);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    /* 統計バー */
+    .stats-bar {
+      display: flex;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 48px;
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .stat-item { flex: 1; text-align: center; }
+
+    .stat-number {
+      display: block;
+      font-size: 2.3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-unit { font-size: 1rem; }
+
+    .stat-label {
+      font-size: 0.76rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .stat-divider {
+      width: 1px;
+      background: var(--border);
+      margin: 8px 0;
+    }
+
+    /* ===== ABOUT ===== */
+    #about { background: var(--surface); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .about-text-block h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: #fff;
+    }
+
+    .about-text-block p {
+      font-size: 0.93rem;
+      line-height: 1.9;
+      color: #b0bcd4;
+      margin-bottom: 14px;
+    }
+
+    .about-highlight { color: var(--accent); font-weight: 600; }
+
+    .about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+
+    .about-tag {
+      padding: 5px 14px;
+      border-radius: 8px;
+      background: rgba(0,212,232,0.08);
+      border: 1px solid rgba(0,212,232,0.2);
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .about-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .about-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.2s;
+    }
+    .about-card:hover { border-color: rgba(0,212,232,0.4); transform: translateY(-3px); }
+    .about-card:first-child { grid-column: span 2; }
+
+    .about-card .card-emoji { font-size: 1.8rem; margin-bottom: 8px; }
+    .about-card .card-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .about-card .card-value { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+
+    /* ===== SKILLS ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .skill-category {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .skill-category::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0.7;
+    }
+    .skill-category:hover { border-color: rgba(0,212,232,0.35); }
+
+    .skill-category h4 {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .skill-items { display: flex; flex-direction: column; gap: 16px; }
+
+    .skill-row { display: flex; align-items: center; gap: 12px; }
+
+    .skill-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: rgba(0,212,232,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .skill-info { flex: 1; }
+    .skill-name { font-size: 0.86rem; font-weight: 600; color: var(--text); }
+    .skill-level { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+
+    .skill-bar-wrap {
+      margin-top: 5px;
+      height: 3px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    /* ===== WORKS ===== */
+    #works { background: var(--surface); }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .work-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .work-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0,212,232,0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .work-thumb {
+      height: 180px;
+      background: linear-gradient(135deg, #0e2a4a, #1a3060);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .work-thumb::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(0,212,232,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,232,.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .work-thumb-icon {
+      font-size: 3.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .work-tag-badge {
+      position: absolute;
+      top: 12px; right: 12px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(0,212,232,0.14);
+      border: 1px solid rgba(0,212,232,0.3);
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      z-index: 1;
+    }
+
+    .work-body { padding: 24px; }
+
+    .work-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .work-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .work-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .work-techs { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .work-tech {
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(123,97,255,0.1);
+      border: 1px solid rgba(123,97,255,0.25);
+      font-size: 0.68rem;
+      color: #a78bfa;
+    }
+
+    .work-link-label {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ===== CAREER ===== */
+    .career-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+
+    .career-col-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .career-col-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .timeline { position: relative; padding-left: 20px; }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 6px; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 24px;
+      padding-bottom: 28px;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -24px; top: 5px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .timeline-period {
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 3px;
+    }
+
+    .timeline-role {
+      font-size: 0.93rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .timeline-org { font-size: 0.8rem; color: var(--muted); }
+
+    .timeline-note {
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: #5a7090;
+      line-height: 1.5;
+    }
+
+    .career-sub-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .career-sub-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ===== CONTACT ===== */
+    #contact { background: var(--surface); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .contact-info p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .contact-items { display: flex; flex-direction: column; gap: 14px; }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .contact-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(0,212,232,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .contact-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .contact-value {
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .contact-map-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      height: 100%;
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-map-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(0,212,232,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,232,.06) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    .map-pin { position: relative; z-index: 1; text-align: center; }
+    .map-pin-icon { font-size: 2.8rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 14px var(--accent)); }
+    .map-pin-text { font-size: 0.82rem; color: var(--muted); }
+
+    /* ===== フッター ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: #0a1628;
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #fff 40%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== レスポンシブ ===== */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      section { padding: 80px 20px; }
+      .stats-bar { padding: 24px 20px; }
+      .stat-number { font-size: 1.8rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-cards { display: none; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .career-layout { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .contact-map-box { min-height: 200px; }
+    }
+
+    @media (max-width: 540px) {
+      .hero-name { font-size: 2.4rem; }
+      .section-title { font-size: 1.5rem; }
+      .stats-bar { flex-direction: column; gap: 20px; }
+      .stat-divider { width: 100%; height: 1px; margin: 0; }
+      .hero-cta { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-orb one"></div>
+  <div class="glow-orb two"></div>
+
+  <!-- ナビゲーション -->
+  <nav>
+    <a class="nav-logo" href="#">跡見仁俊</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#works">Works</a>
+      <a href="#career">Career</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </div>
+  </nav>
+
+  <!-- ヒーロー -->
+  <section id="hero">
+    <span class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      AIクリエーター
+    </span>
+
+    <div class="hero-avatar">
+      <svg width="90" height="96" viewBox="0 0 90 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 96 C14 74 28 67 45 67 C62 67 76 74 76 96" fill="#111e30"/>
+        <rect x="37" y="60" width="16" height="12" rx="4" fill="#1a2a40"/>
+        <rect x="40" y="52" width="10" height="12" rx="3" fill="#c49060"/>
+        <path d="M27 30 C24 38 22 50 23 65 C26 60 27 50 28 42 C28 38 28 34 27 30Z" fill="#1c1c1c"/>
+        <path d="M63 30 C66 38 68 50 67 65 C64 60 63 50 62 42 C62 38 62 34 63 30Z" fill="#1c1c1c"/>
+        <ellipse cx="45" cy="35" rx="15" ry="22" fill="#d4a070"/>
+        <path d="M30 26 C30 10 38 6 45 6 C52 6 60 10 60 26 C58 16 53 12 45 12 C37 12 32 16 30 26Z" fill="#1c1c1c"/>
+        <path d="M45 6 L45 14" stroke="#2a2a2a" stroke-width="1.5"/>
+        <path d="M30 26 C28 32 26 42 25 55" stroke="#1c1c1c" stroke-width="5" stroke-linecap="round"/>
+        <path d="M60 26 C62 32 64 42 65 55" stroke="#1c1c1c" stroke-width="5" stroke-linecap="round"/>
+        <ellipse cx="30" cy="36" rx="2.5" ry="4" fill="#c49060"/>
+        <ellipse cx="60" cy="36" rx="2.5" ry="4" fill="#c49060"/>
+        <path d="M33 24 Q39 22 42 23" stroke="#2a1a0a" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <path d="M48 23 Q51 22 57 24" stroke="#2a1a0a" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <ellipse cx="38" cy="28" rx="4.5" ry="3.2" fill="#fff"/>
+        <ellipse cx="52" cy="28" rx="4.5" ry="3.2" fill="#fff"/>
+        <ellipse cx="38.5" cy="28.5" rx="2.8" ry="2.8" fill="#3a2010"/>
+        <ellipse cx="52.5" cy="28.5" rx="2.8" ry="2.8" fill="#3a2010"/>
+        <ellipse cx="39" cy="28" rx="1.2" ry="1.2" fill="#0a0a0a"/>
+        <ellipse cx="53" cy="28" rx="1.2" ry="1.2" fill="#0a0a0a"/>
+        <path d="M33.5 26 Q38 25 42.5 26" stroke="#1a0a00" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M47.5 26 Q52 25 56.5 26" stroke="#1a0a00" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M44 34 L43 40 Q45 41.5 47 40 L46 34" stroke="#b07840" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <path d="M39 46 Q45 50 51 47" stroke="#9a6040" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <ellipse cx="40" cy="32" rx="2" ry="3" fill="#e8b888" opacity="0.25"/>
+      </svg>
+    </div>
+
+    <h1 class="hero-name">跡見 仁俊</h1>
+    <p class="hero-tagline">AIを活用してイメージを具体化する</p>
+    <p class="hero-desc">
+      AIを学びながら、実務への活用を模索中。<br />
+      多様な職種での20年超の現場経験を武器に、AIで新たな価値を創造します。
+    </p>
+
+    <div class="hero-cta">
+      <a href="#works" class="btn-primary">制作実績を見る</a>
+      <a href="#contact" class="btn-secondary">お問い合わせ</a>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-number">20<span class="stat-unit">年+</span></span>
+        <span class="stat-label">ダブルワーク歴</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number">5<span class="stat-unit">種</span></span>
+        <span class="stat-label">職種経験</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number">6<span class="stat-unit">ヶ月</span></span>
+        <span class="stat-label">AI学習期間</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-eyebrow">About Me</span>
+        <h2 class="section-title">多様な経験が、<span>新しい挑戦</span>を生む</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text-block">
+          <h3>行動するAIクリエーター</h3>
+          <p>
+            AIを学びながら実務への活用を模索中。<span class="about-highlight">「やってみなければわからない」</span>を信条に、学んだことをすぐ実践に移す姿勢で取り組んでいます。
+          </p>
+          <p>
+            宅配ドライバーとして働きながらAIの可能性を探求するダブルワーカー。これまでの多彩な職歴で培った現場感覚と問題解決力を、AIクリエーターとしての活動に活かしています。
+          </p>
+          <div class="about-tags">
+            <span class="about-tag">行動力</span>
+            <span class="about-tag">現場感覚</span>
+            <span class="about-tag">自己啓発</span>
+            <span class="about-tag">AI学習中</span>
+            <span class="about-tag">多職種経験</span>
+          </div>
+        </div>
+        <div class="about-cards">
+          <div class="about-card">
+            <div class="card-emoji">🤖</div>
+            <div class="card-label">現在の挑戦</div>
+            <div class="card-value">AIクリエーター</div>
+          </div>
+          <div class="about-card">
+            <div class="card-emoji">🚚</div>
+            <div class="card-label">メインの仕事</div>
+            <div class="card-value">配送ドライバー</div>
+          </div>
+          <div class="about-card">
+            <div class="card-emoji">🎓</div>
+            <div class="card-label">最終学歴</div>
+            <div class="card-value">富士大学</div>
+          </div>
+          <div class="about-card">
+            <div class="card-emoji">⚡</div>
+            <div class="card-label">信条</div>
+            <div class="card-value">やってみる精神</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-eyebrow">Skills</span>
+        <h2 class="section-title">学習中・活用中の<span>スキル</span></h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h4>AI Tools</h4>
+          <div class="skill-items">
+            <div class="skill-row">
+              <div class="skill-icon">🤖</div>
+              <div class="skill-info">
+                <div class="skill-name">Claude（Anthropic）</div>
+                <div class="skill-level">日常的に活用</div>
+                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:80%"></div></div>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-icon">💬</div>
+              <div class="skill-info">
+                <div class="skill-name">ChatGPT</div>
+                <div class="skill-level">活用中</div>
+                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:68%"></div></div>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-icon">🖼️</div>
+              <div class="skill-info">
+                <div class="skill-name">画像生成AI</div>
+                <div class="skill-level">学習中</div>
+                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:38%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h4>Development</h4>
+          <div class="skill-items">
+            <div class="skill-row">
+              <div class="skill-icon">💻</div>
+              <div class="skill-info">
+                <div class="skill-name">Claude Code</div>
+                <div class="skill-level">勉強中</div>
+                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:35%"></div></div>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-icon">🌐</div>
+              <div class="skill-info">
+                <div class="skill-name">HTML / CSS / JS</div>
+                <div class="skill-level">基礎習得中</div>
+                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:45%"></div></div>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-icon">☁️</div>
+              <div class="skill-info">
+                <div class="skill-name">Vercel</div>
+                <div class="skill-level">デプロイ経験あり</div>
+                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:50%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h4>Business</h4>
+          <div class="skill-items">
+            <div class="skill-row">
+              <div class="skill-icon">📊</div>
+              <div class="skill-info">
+                <div class="skill-name">営業・交渉</div>
+                <div class="skill-level">5年の実務経験</div>
+                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:75%"></div></div>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-icon">⚙️</div>
+              <div class="skill-info">
+                <div class="skill-name">NC機械オペレーション</div>
+                <div class="skill-level">7年の実務経験</div>
+                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:85%"></div></div>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-icon">📋</div>
+              <div class="skill-info">
+                <div class="skill-name">業務管理・改善</div>
+                <div class="skill-level">2年の実務経験</div>
+                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:65%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Works -->
+  <section id="works">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-eyebrow">Works</span>
+        <h2 class="section-title">制作<span>実績</span></h2>
+      </div>
+      <div class="works-grid">
+        <a href="company.html" class="work-card">
+          <div class="work-thumb">
+            <span class="work-thumb-icon">🏢</span>
+            <span class="work-tag-badge">Web</span>
+          </div>
+          <div class="work-body">
+            <div class="work-title">A・I・E・P コーポレートサイト</div>
+            <div class="work-desc">
+              経営・ITコンサルティング会社のコーポレートHP。AIチャットボット搭載、サービス紹介・料金プラン・アクセス情報を網羅。
+            </div>
+            <div class="work-footer">
+              <div class="work-techs">
+                <span class="work-tech">HTML</span>
+                <span class="work-tech">CSS</span>
+                <span class="work-tech">JS</span>
+                <span class="work-tech">Claude API</span>
+              </div>
+              <span class="work-link-label">見る →</span>
+            </div>
+          </div>
+        </a>
+
+        <div class="work-card" style="opacity:0.45; cursor:default; pointer-events:none;">
+          <div class="work-thumb">
+            <span class="work-thumb-icon">🚀</span>
+            <span class="work-tag-badge">Coming Soon</span>
+          </div>
+          <div class="work-body">
+            <div class="work-title">次回作品</div>
+            <div class="work-desc">現在制作中です。お楽しみに。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Career -->
+  <section id="career">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-eyebrow">Career</span>
+        <h2 class="section-title">多様な経験が描く<span>キャリア</span></h2>
+      </div>
+      <div class="career-layout">
+        <div>
+          <p class="career-col-title">職歴</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-period">2025年〜現在</div>
+              <div class="timeline-role">AIクリエーター</div>
+              <div class="timeline-org">個人活動</div>
+              <div class="timeline-note">Claude Codeを学習中。AI×Webで実務活用を模索。</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-period">2010年〜現在（15年目）</div>
+              <div class="timeline-role">宅配荷物 配送ドライバー</div>
+              <div class="timeline-org">配送業</div>
+              <div class="timeline-note">現在もメインの仕事として継続中。</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-period">約2年</div>
+              <div class="timeline-role">工場 業務管理</div>
+              <div class="timeline-org">製造業</div>
+              <div class="timeline-note">生産管理・業務改善を担当。</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-period">約7年</div>
+              <div class="timeline-role">NC機械エンジニア</div>
+              <div class="timeline-org">住宅外壁プレート塗装工場</div>
+              <div class="timeline-note">NC機械の操作・設定・メンテナンスを担当。</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-period">約5年</div>
+              <div class="timeline-role">営業</div>
+              <div class="timeline-org">各業種</div>
+              <div class="timeline-note">顧客開拓・契約交渉・アフターフォロー。</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p class="career-col-title">学歴</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-period">大学卒業</div>
+              <div class="timeline-role">富士大学</div>
+              <div class="timeline-org">最終学歴</div>
+            </div>
+          </div>
+
+          <p class="career-sub-title">ダブルワーク歴（20年以上）</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-period">現在</div>
+              <div class="timeline-role">AIクリエーター × 配送ドライバー</div>
+              <div class="timeline-org">現在のダブルワーク</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-period">経験あり</div>
+              <div class="timeline-role">ネットワークビジネス</div>
+              <div class="timeline-org">副業</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-period">経験あり</div>
+              <div class="timeline-role">FXトレード</div>
+              <div class="timeline-org">副業・投資</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-period">継続中</div>
+              <div class="timeline-role">自己啓発活動</div>
+              <div class="timeline-org">自己投資</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-eyebrow">Contact</span>
+        <h2 class="section-title">お<span>問い合わせ</span></h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>お気軽にご連絡ください</h3>
+          <p>
+            AIを活用したプロジェクトや、ご相談・ご依頼など、<br />お気軽にお問い合わせください。
+          </p>
+          <div class="contact-items">
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div>
+                <div class="contact-label">所在地</div>
+                <div class="contact-value">〒123-4567 東京都新宿区西新宿1-2-3</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📞</div>
+              <div>
+                <div class="contact-label">電話番号</div>
+                <div class="contact-value">03-1234-5678</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-map-box">
+          <div class="map-pin">
+            <span class="map-pin-icon">📍</span>
+            <span class="map-pin-text">東京都新宿区</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer>
+    <div class="footer-logo">跡見 仁俊</div>
+    <div class="footer-copy">© 2026 跡見仁俊 — AIクリエーター</div>
+  </footer>
+</body>
+</html>
