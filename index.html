@@ -349,7 +349,8 @@
     /* ── 趣味 ── */
     .hobby-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      /* 4項目を2×2で均等配置。狭い画面ではカードが親幅を超えないよう min() で縮める */
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
       gap: 12px;
     }
 
