@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>提案用モック｜eSpring浄水器III LP ファーストビュー案</title>
+<style>
+  :root{
+    --ink:#12303a;
+    --ink-soft:#3d5c66;
+    --teal:#0d6e7d;
+    --teal-deep:#08404c;
+    --aqua:#5fc2d1;
+    --sand:#c89b57;
+    --paper:#f6f3ec;
+    --white:#fff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Hiragino Sans","Yu Gothic Medium","Meiryo",system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.8;
+  }
+  .mockbar{
+    background:#1b1b1b;color:#fff;font-size:12px;letter-spacing:.04em;
+    padding:9px 16px;text-align:center;
+  }
+  .mockbar b{color:var(--aqua)}
+  .switch{
+    background:#262626;padding:10px 16px;text-align:center;
+    display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;
+    position:sticky;top:0;z-index:50;
+  }
+  .switch span{color:#9aa4a8;font-size:11.5px;margin-right:2px}
+  .switch button{
+    font:inherit;font-size:12.5px;cursor:pointer;
+    background:#3a3a3a;color:#d8dee0;border:1px solid #555;
+    border-radius:999px;padding:7px 16px;transition:.15s;
+  }
+  .switch button:hover{background:#474747}
+  body[data-bg="a"] .btn-a,
+  body[data-bg="b"] .btn-b{background:var(--aqua);color:#0a2b32;border-color:var(--aqua);font-weight:700}
+
+  /* ===== ファーストビュー ===== */
+  .fv{
+    position:relative;overflow:hidden;
+    padding:56px 22px 44px;
+    transition:color .3s;
+  }
+  .bg{position:absolute;inset:0;z-index:0;transition:opacity .35s}
+  .bg-a{
+    background:
+      radial-gradient(120% 80% at 80% 0%,rgba(95,194,209,.35) 0%,rgba(95,194,209,0) 60%),
+      linear-gradient(170deg,var(--teal-deep) 0%,var(--teal) 55%,#0a5866 100%);
+  }
+  .bg-b svg{width:100%;height:100%;display:block}
+  body[data-bg="a"] .bg-b{opacity:0}
+  body[data-bg="b"] .bg-a{opacity:0}
+
+  .fv::after{
+    content:"";position:absolute;left:-10%;right:-10%;bottom:-1px;height:70px;
+    background:var(--paper);
+    border-radius:50% 50% 0 0/100% 100% 0 0;
+    z-index:1;
+  }
+  .fv-inner{position:relative;z-index:2;max-width:760px;margin:0 auto}
+
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:.16em;
+    border-radius:999px;padding:5px 14px;margin-bottom:22px;
+  }
+  h1{
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+    font-weight:600;
+    font-size:clamp(27px,7.2vw,44px);
+    line-height:1.5;
+    letter-spacing:.01em;
+  }
+  h1 .accent{padding-bottom:2px}
+  .lead{margin-top:20px;font-size:15.5px;max-width:30em}
+
+  .visual{
+    margin:30px auto 0;max-width:330px;aspect-ratio:4/3;
+    border-radius:18px;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;font-size:12.5px;
+    backdrop-filter:blur(2px);
+  }
+
+  .cta{
+    display:block;max-width:400px;margin:30px auto 0;
+    background:linear-gradient(180deg,#e0a95f,#c89b57);
+    color:#3a2a0d;text-decoration:none;text-align:center;
+    font-weight:700;font-size:17px;letter-spacing:.02em;
+    padding:18px 20px;border-radius:14px;
+    box-shadow:0 8px 22px rgba(0,0,0,.22);
+  }
+  .cta small{display:block;font-weight:400;font-size:11.5px;opacity:.75;margin-top:4px}
+
+  .trust{
+    display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+    margin:22px auto 0;max-width:520px;
+  }
+  .trust span{font-size:11.5px;letter-spacing:.03em;border-radius:999px;padding:6px 13px}
+
+  /* --- 背景A：深い水（不安を静かに提示するトーン） --- */
+  body[data-bg="a"] .fv{color:#fff}
+  body[data-bg="a"] .eyebrow{border:1px solid rgba(255,255,255,.45)}
+  body[data-bg="a"] h1{text-shadow:0 2px 14px rgba(0,0,0,.18)}
+  body[data-bg="a"] h1 .accent{color:#ffe9b8;border-bottom:2px solid rgba(255,233,184,.55)}
+  body[data-bg="a"] .lead{color:rgba(255,255,255,.92)}
+  body[data-bg="a"] .visual{
+    background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.06));
+    border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.75);
+  }
+  body[data-bg="a"] .trust span{
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.26);
+  }
+
+  /* --- 背景B：自然光（清潔感・環境にやさしいトーン） --- */
+  body[data-bg="b"] .fv{color:var(--ink)}
+  body[data-bg="b"] .eyebrow{border:1px solid rgba(13,110,125,.4);color:var(--teal);background:rgba(255,255,255,.5)}
+  body[data-bg="b"] h1{text-shadow:0 1px 12px rgba(255,255,255,.6)}
+  body[data-bg="b"] h1 .accent{color:#0a5d6b;border-bottom:2px solid rgba(13,110,125,.4)}
+  body[data-bg="b"] .lead{color:#2b4a52}
+  body[data-bg="b"] .visual{
+    background:rgba(255,255,255,.55);
+    border:1px solid rgba(13,110,125,.28);color:#456a72;
+  }
+  body[data-bg="b"] .trust span{
+    background:rgba(255,255,255,.62);border:1px solid rgba(13,110,125,.24);color:#2b4a52;
+  }
+
+  /* ===== この先の構成 ===== */
+  .plan{max-width:760px;margin:0 auto;padding:46px 22px 60px}
+  .plan h2{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:19px;font-weight:600;margin-bottom:6px}
+  .plan .note{font-size:13px;color:var(--ink-soft);margin-bottom:26px}
+  ol{list-style:none;counter-reset:s}
+  ol li{
+    counter-increment:s;position:relative;
+    background:var(--white);border:1px solid #e3ded3;border-radius:12px;
+    padding:16px 18px 16px 58px;margin-bottom:11px;font-size:14px;
+  }
+  ol li::before{
+    content:counter(s);position:absolute;left:17px;top:15px;
+    width:26px;height:26px;border-radius:50%;
+    background:var(--teal);color:#fff;font-size:13px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+  ol li b{display:block;font-size:15px;margin-bottom:3px}
+  ol li.current{border-color:var(--sand);box-shadow:0 0 0 3px rgba(200,155,87,.16)}
+  ol li.current::after{
+    content:"← いま見ていただいている部分";
+    display:block;margin-top:7px;font-size:12px;color:var(--sand);font-weight:700;
+  }
+  .src{
+    margin-top:26px;padding:15px 17px;border-left:3px solid var(--teal);
+    background:#eef3f2;font-size:13px;color:var(--ink-soft);border-radius:0 8px 8px 0;
+  }
+  .src b{color:var(--ink)}
+  footer{text-align:center;font-size:11.5px;color:#8a9499;padding:0 22px 40px}
+  @media(min-width:720px){
+    .fv{padding:76px 22px 60px}
+    .plan{padding-top:56px}
+  }
+</style>
+</head>
+<body data-bg="b">
+
+<div class="mockbar">
+  提案用モックアップ／<b>ファーストビュー案</b>　※納品物ではありません。数値・写真は資料から差し替え前提です
+</div>
+
+<!-- 背景A/Bの切替バーは、B採用決定（2026/07/27・社長判断）につき撤去。
+     Aに戻したい場合は <body data-bg="b"> を data-bg="a" に変えるだけでOK（CSSは両方残してある）。 -->
+
+<section class="fv">
+  <!-- 背景A：深い水 -->
+  <div class="bg bg-a"></div>
+
+  <!-- 背景B：自然光（オリジナル制作・T24_FV背景_自然光.svg と同一） -->
+  <div class="bg bg-b">
+    <svg viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0.18" y2="1">
+          <stop offset="0" stop-color="#f4fbf4"/><stop offset="0.30" stop-color="#dcf1e3"/>
+          <stop offset="0.62" stop-color="#a9dde0"/><stop offset="1" stop-color="#57aebd"/>
+        </linearGradient>
+        <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#8fd2d6" stop-opacity="0.45"/>
+          <stop offset="1" stop-color="#2b8695" stop-opacity="0.92"/>
+        </linearGradient>
+        <radialGradient id="sunglow" cx="0.80" cy="0.08" r="0.62">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.92"/>
+          <stop offset="0.45" stop-color="#f4ffe9" stop-opacity="0.35"/>
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="ray" x1="0" y1="0" x2="0.3" y2="1">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.55"/>
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#4e9a6b" stop-opacity="0.55"/>
+          <stop offset="1" stop-color="#2f7350" stop-opacity="0.38"/>
+        </linearGradient>
+        <filter id="blurL" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="22"/></filter>
+        <filter id="blurS" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="7"/></filter>
+      </defs>
+
+      <rect width="1200" height="900" fill="url(#sky)"/>
+      <rect width="1200" height="900" fill="url(#sunglow)"/>
+
+      <g filter="url(#blurS)" opacity="0.55">
+        <polygon points="900,-60 1010,-60 690,900 520,900" fill="url(#ray)"/>
+        <polygon points="1050,-60 1110,-60 900,900 800,900" fill="url(#ray)" opacity="0.7"/>
+        <polygon points="760,-60 800,-60 470,900 390,900" fill="url(#ray)" opacity="0.5"/>
+      </g>
+
+      <path d="M0,600 C180,548 330,592 470,566 C640,534 760,584 900,560 C1020,540 1120,566 1200,552 L1200,900 L0,900 Z" fill="#9ed3c0" opacity="0.35"/>
+      <path d="M0,648 C160,614 320,652 500,626 C680,600 840,644 1000,624 C1090,612 1150,624 1200,618 L1200,900 L0,900 Z" fill="#7cc3b4" opacity="0.32"/>
+      <path d="M0,690 C200,662 380,706 600,684 C820,662 1000,700 1200,676 L1200,900 L0,900 Z" fill="url(#water)"/>
+
+      <g opacity="0.5">
+        <ellipse cx="250" cy="742" rx="86" ry="4" fill="#fff" opacity="0.55"/>
+        <ellipse cx="470" cy="776" rx="120" ry="5" fill="#fff" opacity="0.4"/>
+        <ellipse cx="760" cy="748" rx="98" ry="4" fill="#fff" opacity="0.5"/>
+        <ellipse cx="980" cy="800" rx="140" ry="5" fill="#fff" opacity="0.32"/>
+        <ellipse cx="150" cy="826" rx="110" ry="4" fill="#fff" opacity="0.28"/>
+        <ellipse cx="640" cy="850" rx="160" ry="5" fill="#fff" opacity="0.22"/>
+      </g>
+
+      <g fill="none" stroke="#ffffff" opacity="0.45">
+        <ellipse cx="880" cy="768" rx="46" ry="11" stroke-width="1.6"/>
+        <ellipse cx="880" cy="768" rx="82" ry="19" stroke-width="1.2" opacity="0.7"/>
+        <ellipse cx="880" cy="768" rx="124" ry="28" stroke-width="0.9" opacity="0.45"/>
+      </g>
+
+      <g filter="url(#blurS)">
+        <circle cx="1020" cy="150" r="26" fill="#fff" opacity="0.5"/>
+        <circle cx="930" cy="248" r="14" fill="#fff" opacity="0.42"/>
+        <circle cx="1105" cy="300" r="18" fill="#fff" opacity="0.34"/>
+        <circle cx="840" cy="120" r="10" fill="#fff" opacity="0.45"/>
+        <circle cx="700" cy="215" r="8" fill="#fff" opacity="0.3"/>
+      </g>
+
+      <g transform="translate(370,0)" fill="url(#leaf)">
+        <path d="M-20,900 C60,780 150,720 262,700 C214,772 178,838 168,900 Z"/>
+        <path d="M96,900 C150,806 226,754 318,738 C268,796 232,850 220,900 Z" opacity="0.75"/>
+        <path d="M-30,832 C40,768 118,738 196,732 C140,782 96,842 78,900 L-30,900 Z" opacity="0.6"/>
+      </g>
+      <g transform="translate(370,0)" stroke="#2f7350" stroke-width="1.4" opacity="0.22" fill="none">
+        <path d="M262,700 C210,760 180,830 168,898"/>
+        <path d="M318,738 C272,790 238,846 222,898"/>
+      </g>
+
+      <rect width="1200" height="230" fill="#ffffff" opacity="0.28" filter="url(#blurL)"/>
+    </svg>
+  </div>
+
+  <div class="fv-inner">
+    <span class="eyebrow">毎日、家族が口にするものだから</span>
+    <h1>
+      その一杯を、<br>
+      迷わず<span class="accent">差し出せる</span>ように。
+    </h1>
+    <p class="lead">
+      お子さまに水を渡すとき、少しだけ迷ったことはありませんか。<br>
+      水道水に何が含まれ、何が取り除けるのか。
+      公的な性能試験の数字を、そのままお見せします。
+      判断するのは、お母さんご自身です。
+    </p>
+
+    <div class="visual">
+      製品ビジュアル（eSpring浄水器III）<br>
+      ※クライアント様ご提供の画像に差し替え
+    </div>
+
+    <a class="cta" href="#plan">
+      まず、水道水の“中身”を見てみる
+      <small>公的試験データにもとづいた解説へ</small>
+    </a>
+
+    <div class="trust">
+      <span>世界売上 No.1 ※</span>
+      <span>NSF性能データシート準拠</span>
+      <span>※出典は資料に基づき明記します</span>
+    </div>
+  </div>
+</section>
+
+<section class="plan" id="plan">
+  <h2>この先に続く構成（ご提案）</h2>
+  <p class="note">ファーストビュー以降は、以下の順で組み立てる想定です。</p>
+
+  <ol>
+    <li class="current"><b>ファーストビュー</b>「浄水したあとの理想の景色」を先に見せ、判断の主導権はお客様に残す</li>
+    <li><b>水道水の実際</b>NSF性能データシートの除去対象・除去率を、表現を足さずに数値のまま提示</li>
+    <li><b>eSpring III の性能と実績</b>製品ガイド／優位性PDFから、選んで間違いない理由を担保</li>
+    <li><b>費用の見え方を変える</b>総額ではなく「1日あたり◯円」に分解。ペットボトル代との比較で節約を可視化</li>
+    <li><b>締め</b>「不安が消える」ではなく「家族を守れた自分」を見せて行動につなげる</li>
+  </ol>
+
+  <div class="src">
+    <b>数値・事実の出典について。</b>
+    水環境に関する記述は、ご指定の3点（製品ガイド／優位性／NSF性能データシート）からのみ引用し、
+    出典を明記します。推測や誇張は一切入れません。
+    本モックの数値枠が空欄なのは、まだ資料の実数を反映していないためです。
+    背景ビジュアルはすべてオリジナル制作（他社商品の画像・意匠は使用していません）。
+  </div>
+</section>
+
+<footer>
+  制作：ひろ｜提案用モックアップ（HTML / CSS・単一ファイル）<br>
+  本番は Wix の複製ページ上で制作いたします
+</footer>
+
+</body>
+</html>
