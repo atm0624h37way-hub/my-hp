@@ -8,6 +8,7 @@ import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import dotenv from 'dotenv';
+import { PORTFOLIO_PROMPT } from './api/prompts.js';
 
 dotenv.config();
 
@@ -82,11 +83,14 @@ A: 銀行振込一括払い・クレジットカード一括払い・36回まで
 
 // チャットAPIエンドポイント（ストリーミング対応）
 app.post('/api/chat', async (req, res) => {
-  const { messages } = req.body;
+  const { messages, persona } = req.body;
 
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'messagesが必要です' });
   }
+
+  // ペルソナ切り替え（未指定は従来どおり会社アシスタント）
+  const systemPrompt = persona === 'portfolio' ? PORTFOLIO_PROMPT : SYSTEM_PROMPT;
 
   // APIキー未設定チェック
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -102,7 +106,7 @@ app.post('/api/chat', async (req, res) => {
     const stream = anthropic.messages.stream({
       model: 'claude-opus-4-7',
       max_tokens: 1024,
-      system: SYSTEM_PROMPT,
+      system: systemPrompt,
       messages: messages,
     });
 

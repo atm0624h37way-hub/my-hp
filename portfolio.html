@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>跡見仁俊 | ポートフォリオ</title>
+  <title>跡見仁俊 | 現場を知るWeb制作者</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+JP:wght@300;400;700&display=swap');
 
@@ -359,7 +359,7 @@
     /* ===== SKILLS ===== */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
       gap: 24px;
     }
 
@@ -426,6 +426,70 @@
 
     /* ===== WORKS ===== */
     #works { background: var(--surface); }
+
+    .works-note {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: var(--muted);
+      margin: -12px 0 28px;
+      text-align: center;
+    }
+
+    /* ===== STRENGTHS ===== */
+    .strengths-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .strength-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.2s;
+    }
+
+    .strength-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0.7;
+    }
+
+    .strength-card:hover {
+      border-color: rgba(0,212,232,0.35);
+      transform: translateY(-4px);
+    }
+
+    .strength-num {
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .strength-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .strength-body {
+      font-size: 0.86rem;
+      line-height: 1.9;
+      color: var(--muted);
+      font-weight: 300;
+    }
 
     .works-grid {
       display: grid;
@@ -730,6 +794,263 @@
       letter-spacing: 0.1em;
     }
 
+    /* ========== チャットウィジェット ========== */
+    #chat-widget {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    /* チャット開閉ボタン */
+    #chat-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 28px rgba(0,212,232,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      flex-shrink: 0;
+    }
+
+    #chat-toggle:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px rgba(0,212,232,0.55);
+    }
+
+    #chat-toggle svg {
+      width: 26px;
+      height: 26px;
+      stroke: #fff;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: opacity 0.2s;
+    }
+
+    /* アイコン切り替え */
+    #chat-toggle .icon-chat { display: block; }
+    #chat-toggle .icon-close { display: none; }
+    #chat-widget.open #chat-toggle .icon-chat { display: none; }
+    #chat-widget.open #chat-toggle .icon-close { display: block; }
+
+    /* チャットウィンドウ */
+    #chat-window {
+      width: 360px;
+      height: 480px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(16px) scale(0.96);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #chat-widget.open #chat-window {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    /* ヘッダー */
+    .chat-header {
+      background: linear-gradient(135deg, rgba(0,212,232,0.15), rgba(123,97,255,0.15));
+      border-bottom: 1px solid var(--border);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .chat-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .chat-header-info { flex: 1; }
+
+    .chat-header-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .chat-header-status {
+      font-size: 0.72rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chat-header-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    /* メッセージエリア */
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* メッセージバブル */
+    .chat-msg {
+      display: flex;
+      flex-direction: column;
+      max-width: 85%;
+      gap: 4px;
+      animation: msgIn 0.2s ease;
+    }
+
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-msg.user { align-self: flex-end; align-items: flex-end; }
+    .chat-msg.assistant { align-self: flex-start; align-items: flex-start; }
+
+    .chat-bubble {
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .chat-msg.user .chat-bubble {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #0e1f3a;
+      font-weight: 500;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-msg.assistant .chat-bubble {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-bottom-left-radius: 4px;
+    }
+
+    /* タイピングインジケーター */
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 12px 14px;
+    }
+
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: typing 1.2s infinite;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+      0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+      30%            { opacity: 1;   transform: translateY(-4px); }
+    }
+
+    /* 入力エリア */
+    .chat-input-area {
+      border-top: 1px solid var(--border);
+      padding: 12px 14px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    #chat-input {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: 0.85rem;
+      font-family: inherit;
+      resize: none;
+      outline: none;
+      max-height: 96px;
+      line-height: 1.5;
+      transition: border-color 0.2s;
+    }
+
+    #chat-input::placeholder { color: var(--muted); }
+    #chat-input:focus { border-color: var(--accent); }
+
+    #chat-send {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    #chat-send:hover { opacity: 0.9; transform: scale(1.05); }
+    #chat-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    #chat-send svg {
+      width: 17px;
+      height: 17px;
+      stroke: #0e1f3a;
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     /* ===== レスポンシブ ===== */
     @media (max-width: 768px) {
       nav { padding: 0 20px; }
@@ -751,6 +1072,8 @@
       .stats-bar { flex-direction: column; gap: 20px; }
       .stat-divider { width: 100%; height: 1px; margin: 0; }
       .hero-cta { gap: 10px; }
+      #chat-window { width: calc(100vw - 32px); height: 420px; }
+      #chat-widget { bottom: 16px; right: 16px; }
     }
   </style>
 </head>
@@ -765,6 +1088,7 @@
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#works">Works</a>
+      <a href="#strengths">Strengths</a>
       <a href="#career">Career</a>
       <a href="#contact" class="nav-cta">Contact</a>
     </div>
@@ -774,7 +1098,7 @@
   <section id="hero">
     <span class="hero-badge">
       <span class="hero-badge-dot"></span>
-      AIクリエーター
+      現場を知るWeb制作者
     </span>
 
     <div class="hero-avatar">
@@ -808,31 +1132,31 @@
     </div>
 
     <h1 class="hero-name">跡見 仁俊</h1>
-    <p class="hero-tagline">AIを活用してイメージを具体化する</p>
+    <p class="hero-tagline">物流・製造・営業の現場から、Webへ。</p>
     <p class="hero-desc">
-      AIを学びながら、実務への活用を模索中。<br />
-      多様な職種での20年超の現場経験を武器に、AIで新たな価値を創造します。
+      営業・NC加工・配送。ずっと現場にいました。<br />
+      「使う人が現場のどこで手を止めるか」から考えて、Webと業務自動化を作ります。
     </p>
 
     <div class="hero-cta">
-      <a href="#works" class="btn-primary">制作実績を見る</a>
+      <a href="#works" class="btn-primary">制作したものを見る</a>
       <a href="#contact" class="btn-secondary">お問い合わせ</a>
     </div>
 
     <div class="stats-bar">
       <div class="stat-item">
-        <span class="stat-number">20<span class="stat-unit">年+</span></span>
-        <span class="stat-label">ダブルワーク歴</span>
+        <span class="stat-number">5<span class="stat-unit">年</span></span>
+        <span class="stat-label">自動車の営業</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-number">5<span class="stat-unit">種</span></span>
-        <span class="stat-label">職種経験</span>
+        <span class="stat-number">6<span class="stat-unit">年</span></span>
+        <span class="stat-label">NC加工プログラム</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-number">6<span class="stat-unit">ヶ月</span></span>
-        <span class="stat-label">AI学習期間</span>
+        <span class="stat-number">4<span class="stat-unit">業種</span></span>
+        <span class="stat-label">現場経験</span>
       </div>
     </div>
   </section>
@@ -842,45 +1166,48 @@
     <div class="section-inner">
       <div class="section-header">
         <span class="section-eyebrow">About Me</span>
-        <h2 class="section-title">多様な経験が、<span>新しい挑戦</span>を生む</h2>
+        <h2 class="section-title">現場の「めんどくさい」を、<span>Webで軽くする</span></h2>
       </div>
       <div class="about-grid">
         <div class="about-text-block">
-          <h3>行動するAIクリエーター</h3>
+          <h3>現場を知るWeb制作者</h3>
           <p>
-            AIを学びながら実務への活用を模索中。<span class="about-highlight">「やってみなければわからない」</span>を信条に、学んだことをすぐ実践に移す姿勢で取り組んでいます。
+            自動車の営業を5年、工場でNC加工プログラムを6年。いまは配送ドライバーとして、毎日現場で荷物を運んでいます。外壁塗装の現場に立ったこともあります。
           </p>
           <p>
-            宅配ドライバーとして働きながらAIの可能性を探求するダブルワーカー。これまでの多彩な職歴で培った現場感覚と問題解決力を、AIクリエーターとしての活動に活かしています。
+            どの現場にも共通していたのは、<span class="about-highlight">「まだ紙とExcelと電話で回している仕事」</span>でした。それを自分で軽くしたくて、Googleフォームとスプレッドシートで日報の記録・集計・通知を自動化する仕組みを独学で作りました。そこからWeb制作に広がっています。
+          </p>
+          <p>
+            デザインの学校を出たわけでも、制作会社にいたわけでもありません。ただ、「使う人が現場のどこで手を止めるか」は、たぶん誰よりも想像がつきます。
           </p>
           <div class="about-tags">
-            <span class="about-tag">行動力</span>
             <span class="about-tag">現場感覚</span>
-            <span class="about-tag">自己啓発</span>
-            <span class="about-tag">AI学習中</span>
+            <span class="about-tag">Web制作</span>
+            <span class="about-tag">業務自動化</span>
+            <span class="about-tag">独学</span>
             <span class="about-tag">多職種経験</span>
           </div>
         </div>
         <div class="about-cards">
           <div class="about-card">
-            <div class="card-emoji">🤖</div>
-            <div class="card-label">現在の挑戦</div>
-            <div class="card-value">AIクリエーター</div>
+            <div class="card-emoji">🛠️</div>
+            <div class="card-label">つくるもの</div>
+            <div class="card-value">Web制作・業務自動化</div>
           </div>
           <div class="about-card">
             <div class="card-emoji">🚚</div>
-            <div class="card-label">メインの仕事</div>
+            <div class="card-label">いまの仕事</div>
             <div class="card-value">配送ドライバー</div>
+          </div>
+          <div class="about-card">
+            <div class="card-emoji">⚙️</div>
+            <div class="card-label">前職</div>
+            <div class="card-value">NC加工プログラム</div>
           </div>
           <div class="about-card">
             <div class="card-emoji">🎓</div>
             <div class="card-label">最終学歴</div>
             <div class="card-value">富士大学</div>
-          </div>
-          <div class="about-card">
-            <div class="card-emoji">⚡</div>
-            <div class="card-label">信条</div>
-            <div class="card-value">やってみる精神</div>
           </div>
         </div>
       </div>
@@ -892,94 +1219,105 @@
     <div class="section-inner">
       <div class="section-header">
         <span class="section-eyebrow">Skills</span>
-        <h2 class="section-title">学習中・活用中の<span>スキル</span></h2>
+        <h2 class="section-title">できる<span>こと</span></h2>
       </div>
       <div class="skills-grid">
         <div class="skill-category">
-          <h4>AI Tools</h4>
+          <h4>フロントエンド</h4>
+          <div class="skill-items">
+            <div class="skill-row">
+              <div class="skill-icon">🌐</div>
+              <div class="skill-info">
+                <div class="skill-name">HTML / CSS</div>
+                <div class="skill-level">レスポンシブ対応</div>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-icon">📜</div>
+              <div class="skill-info">
+                <div class="skill-name">JavaScript / TypeScript</div>
+                <div class="skill-level">動きのある画面をつくる</div>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-icon">⚛️</div>
+              <div class="skill-info">
+                <div class="skill-name">Next.js / Tailwind CSS</div>
+                <div class="skill-level">自主制作サイトで使用</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h4>AI・実装</h4>
           <div class="skill-items">
             <div class="skill-row">
               <div class="skill-icon">🤖</div>
               <div class="skill-info">
-                <div class="skill-name">Claude（Anthropic）</div>
-                <div class="skill-level">日常的に活用</div>
-                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:80%"></div></div>
+                <div class="skill-name">Claude API</div>
+                <div class="skill-level">サイトへの組み込み</div>
               </div>
             </div>
             <div class="skill-row">
               <div class="skill-icon">💬</div>
               <div class="skill-info">
-                <div class="skill-name">ChatGPT</div>
-                <div class="skill-level">活用中</div>
-                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:68%"></div></div>
+                <div class="skill-name">チャットボット実装</div>
+                <div class="skill-level">このサイトに設置済み</div>
               </div>
             </div>
-            <div class="skill-row">
-              <div class="skill-icon">🖼️</div>
-              <div class="skill-info">
-                <div class="skill-name">画像生成AI</div>
-                <div class="skill-level">学習中</div>
-                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:38%"></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="skill-category">
-          <h4>Development</h4>
-          <div class="skill-items">
             <div class="skill-row">
               <div class="skill-icon">💻</div>
               <div class="skill-info">
-                <div class="skill-name">Claude Code</div>
-                <div class="skill-level">勉強中</div>
-                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:35%"></div></div>
-              </div>
-            </div>
-            <div class="skill-row">
-              <div class="skill-icon">🌐</div>
-              <div class="skill-info">
-                <div class="skill-name">HTML / CSS / JS</div>
-                <div class="skill-level">基礎習得中</div>
-                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:45%"></div></div>
-              </div>
-            </div>
-            <div class="skill-row">
-              <div class="skill-icon">☁️</div>
-              <div class="skill-info">
-                <div class="skill-name">Vercel</div>
-                <div class="skill-level">デプロイ経験あり</div>
-                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:50%"></div></div>
+                <div class="skill-name">Claude Code を使った開発</div>
+                <div class="skill-level">企画から実装・公開まで</div>
               </div>
             </div>
           </div>
         </div>
 
         <div class="skill-category">
-          <h4>Business</h4>
+          <h4>公開・運用</h4>
           <div class="skill-items">
             <div class="skill-row">
-              <div class="skill-icon">📊</div>
+              <div class="skill-icon">☁️</div>
               <div class="skill-info">
-                <div class="skill-name">営業・交渉</div>
-                <div class="skill-level">5年の実務経験</div>
-                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:75%"></div></div>
+                <div class="skill-name">Vercel デプロイ</div>
+                <div class="skill-level">公開・更新まで対応</div>
               </div>
             </div>
             <div class="skill-row">
-              <div class="skill-icon">⚙️</div>
+              <div class="skill-icon">🔧</div>
               <div class="skill-info">
-                <div class="skill-name">NC機械オペレーション</div>
-                <div class="skill-level">7年の実務経験</div>
-                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:85%"></div></div>
+                <div class="skill-name">Git / GitHub</div>
+                <div class="skill-level">ソース管理</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h4>業務自動化</h4>
+          <div class="skill-items">
+            <div class="skill-row">
+              <div class="skill-icon">📝</div>
+              <div class="skill-info">
+                <div class="skill-name">Googleフォーム / スプレッドシート</div>
+                <div class="skill-level">日報の記録・集計を自動化</div>
               </div>
             </div>
             <div class="skill-row">
-              <div class="skill-icon">📋</div>
+              <div class="skill-icon">⚡</div>
               <div class="skill-info">
-                <div class="skill-name">業務管理・改善</div>
-                <div class="skill-level">2年の実務経験</div>
-                <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:65%"></div></div>
+                <div class="skill-name">GAS（Google Apps Script）</div>
+                <div class="skill-level">独学で仕組みを構築</div>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-icon">📧</div>
+              <div class="skill-info">
+                <div class="skill-name">自動集計 / 条件分岐メール通知</div>
+                <div class="skill-level">現場の手作業を削減</div>
               </div>
             </div>
           </div>
@@ -993,18 +1331,60 @@
     <div class="section-inner">
       <div class="section-header">
         <span class="section-eyebrow">Works</span>
-        <h2 class="section-title">制作<span>実績</span></h2>
+        <h2 class="section-title">自主<span>制作</span></h2>
       </div>
+      <p class="works-note">※クライアント納品実績はこれからです。以下はすべて自分で企画・制作したものです。</p>
       <div class="works-grid">
+        <div class="work-card">
+          <div class="work-thumb">
+            <span class="work-thumb-icon">☕</span>
+            <span class="work-tag-badge">自主制作</span>
+          </div>
+          <div class="work-body">
+            <div class="work-title">cafe-portfolio（カフェのホームページ）</div>
+            <div class="work-desc">
+              架空のカフェを想定して、企画から公開まで一人で制作した1ページ完結型サイト。「スマホで見て、そのまま来店したくなるか」を基準に情報の順番を組みました。
+            </div>
+            <div class="work-footer">
+              <div class="work-techs">
+                <span class="work-tech">Next.js</span>
+                <span class="work-tech">TypeScript</span>
+                <span class="work-tech">Tailwind CSS</span>
+                <span class="work-tech">Vercel</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <div class="work-thumb">
+            <span class="work-thumb-icon">🧑‍💻</span>
+            <span class="work-tag-badge">自主制作</span>
+          </div>
+          <div class="work-body">
+            <div class="work-title">このポートフォリオサイト</div>
+            <div class="work-desc">
+              いま見ていただいているこのサイト自体も、自分で設計・制作しました。Claude APIを組み込んだチャットボットを設置し、サイト上で質問に答えられるようにしています。
+            </div>
+            <div class="work-footer">
+              <div class="work-techs">
+                <span class="work-tech">Claude API</span>
+                <span class="work-tech">チャットボット</span>
+                <span class="work-tech">Vercel</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <a href="company.html" class="work-card">
           <div class="work-thumb">
             <span class="work-thumb-icon">🏢</span>
-            <span class="work-tag-badge">Web</span>
+            <span class="work-tag-badge">自主制作</span>
           </div>
           <div class="work-body">
             <div class="work-title">A・I・E・P コーポレートサイト</div>
             <div class="work-desc">
-              経営・ITコンサルティング会社のコーポレートHP。AIチャットボット搭載、サービス紹介・料金プラン・アクセス情報を網羅。
+              コンサルティング会社を想定したコーポレートHP。AIチャットボットを組み込み、サービス紹介・料金プラン・アクセス情報までを1サイトにまとめました。
             </div>
             <div class="work-footer">
               <div class="work-techs">
@@ -1017,16 +1397,38 @@
             </div>
           </div>
         </a>
+      </div>
+    </div>
+  </section>
 
-        <div class="work-card" style="opacity:0.45; cursor:default; pointer-events:none;">
-          <div class="work-thumb">
-            <span class="work-thumb-icon">🚀</span>
-            <span class="work-tag-badge">Coming Soon</span>
-          </div>
-          <div class="work-body">
-            <div class="work-title">次回作品</div>
-            <div class="work-desc">現在制作中です。お楽しみに。</div>
-          </div>
+  <!-- Strengths -->
+  <section id="strengths">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-eyebrow">Strengths</span>
+        <h2 class="section-title">選ばれる<span>3つの理由</span></h2>
+      </div>
+      <div class="strengths-grid">
+        <div class="strength-card">
+          <div class="strength-num">01</div>
+          <div class="strength-name">現場を知っている</div>
+          <p class="strength-body">
+            物流・製造・営業・塗装、どれも自分の体で経験してきました。「なぜその作業が減らせないのか」を、聞く前からある程度想像できます。
+          </p>
+        </div>
+        <div class="strength-card">
+          <div class="strength-num">02</div>
+          <div class="strength-name">使う人の目線で作る</div>
+          <p class="strength-body">
+            現場の人はパソコンの前に座っていません。片手で、立ったまま、急いで触ります。だから見た目より先に「迷わず押せるか」を考えて設計します。
+          </p>
+        </div>
+        <div class="strength-card">
+          <div class="strength-num">03</div>
+          <div class="strength-name">AIを道具として使いこなす</div>
+          <p class="strength-body">
+            Claude Codeを使い、企画から実装・公開までを一人で回しています。だから小さく速く作って、見てもらいながら直せます。
+          </p>
         </div>
       </div>
     </div>
@@ -1045,37 +1447,37 @@
           <div class="timeline">
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-period">2025年〜現在</div>
-              <div class="timeline-role">AIクリエーター</div>
+              <div class="timeline-period">現在</div>
+              <div class="timeline-role">Web制作・業務自動化</div>
               <div class="timeline-org">個人活動</div>
-              <div class="timeline-note">Claude Codeを学習中。AI×Webで実務活用を模索。</div>
+              <div class="timeline-note">現場の困りごとを、Webと自動化で軽くする仕組みづくり。</div>
             </div>
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-period">2010年〜現在（15年目）</div>
-              <div class="timeline-role">宅配荷物 配送ドライバー</div>
-              <div class="timeline-org">配送業</div>
-              <div class="timeline-note">現在もメインの仕事として継続中。</div>
+              <div class="timeline-period">現在</div>
+              <div class="timeline-role">配送ドライバー</div>
+              <div class="timeline-org">物流</div>
+              <div class="timeline-note">毎日現場で荷物を運んでいます。日報の自動化はここから生まれました。</div>
             </div>
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-period">約2年</div>
-              <div class="timeline-role">工場 業務管理</div>
-              <div class="timeline-org">製造業</div>
-              <div class="timeline-note">生産管理・業務改善を担当。</div>
+              <div class="timeline-period">6年</div>
+              <div class="timeline-role">NC加工プログラム</div>
+              <div class="timeline-org">製造（住宅外壁プレート塗装工場）</div>
+              <div class="timeline-note">NC機械のプログラム作成・操作・設定を担当。</div>
             </div>
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-period">約7年</div>
-              <div class="timeline-role">NC機械エンジニア</div>
-              <div class="timeline-org">住宅外壁プレート塗装工場</div>
-              <div class="timeline-note">NC機械の操作・設定・メンテナンスを担当。</div>
+              <div class="timeline-period">経験あり</div>
+              <div class="timeline-role">外壁塗装</div>
+              <div class="timeline-org">建築</div>
+              <div class="timeline-note">実際に現場に立って作業した経験があります。</div>
             </div>
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-period">約5年</div>
-              <div class="timeline-role">営業</div>
-              <div class="timeline-org">各業種</div>
+              <div class="timeline-period">5年</div>
+              <div class="timeline-role">自動車の営業</div>
+              <div class="timeline-org">販売</div>
               <div class="timeline-note">顧客開拓・契約交渉・アフターフォロー。</div>
             </div>
           </div>
@@ -1092,31 +1494,25 @@
             </div>
           </div>
 
-          <p class="career-sub-title">ダブルワーク歴（20年以上）</p>
+          <p class="career-sub-title">Web制作にたどり着くまで</p>
           <div class="timeline">
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-period">現在</div>
-              <div class="timeline-role">AIクリエーター × 配送ドライバー</div>
-              <div class="timeline-org">現在のダブルワーク</div>
+              <div class="timeline-period">きっかけ</div>
+              <div class="timeline-role">現場は紙とExcelと電話で回っていた</div>
+              <div class="timeline-org">どの職場でも同じだった</div>
             </div>
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-period">経験あり</div>
-              <div class="timeline-role">ネットワークビジネス</div>
-              <div class="timeline-org">副業</div>
+              <div class="timeline-period">最初の一歩</div>
+              <div class="timeline-role">日報の記録・集計・通知を自動化</div>
+              <div class="timeline-org">Googleフォーム / スプレッドシート / GAS（独学）</div>
             </div>
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-period">経験あり</div>
-              <div class="timeline-role">FXトレード</div>
-              <div class="timeline-org">副業・投資</div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-period">継続中</div>
-              <div class="timeline-role">自己啓発活動</div>
-              <div class="timeline-org">自己投資</div>
+              <div class="timeline-period">いま</div>
+              <div class="timeline-role">Web制作へ</div>
+              <div class="timeline-org">企画から実装・公開まで一人で</div>
             </div>
           </div>
         </div>
@@ -1133,31 +1529,32 @@
       </div>
       <div class="contact-grid">
         <div class="contact-info">
-          <h3>お気軽にご連絡ください</h3>
+          <h3>お気軽にご相談ください</h3>
           <p>
-            AIを活用したプロジェクトや、ご相談・ご依頼など、<br />お気軽にお問い合わせください。
+            ホームページ制作、業務の自動化、<br />「これ、なんとかならない？」の段階でも構いません。
           </p>
           <div class="contact-items">
             <div class="contact-item">
-              <div class="contact-icon">📍</div>
+              <div class="contact-icon">💬</div>
               <div>
-                <div class="contact-label">所在地</div>
-                <div class="contact-value">〒123-4567 東京都新宿区西新宿1-2-3</div>
+                <div class="contact-label">チャット</div>
+                <div class="contact-value">画面右下のAIアシスタントから、いつでもどうぞ</div>
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-icon">📞</div>
+              <div class="contact-icon">✉️</div>
               <div>
-                <div class="contact-label">電話番号</div>
-                <div class="contact-value">03-1234-5678</div>
+                <div class="contact-label">メール</div>
+                <!-- TODO: 実際のメールアドレスに差し替えてください -->
+                <div class="contact-value">準備中</div>
               </div>
             </div>
           </div>
         </div>
         <div class="contact-map-box">
           <div class="map-pin">
-            <span class="map-pin-icon">📍</span>
-            <span class="map-pin-text">東京都新宿区</span>
+            <span class="map-pin-icon">🖥️</span>
+            <span class="map-pin-text">打ち合わせはオンラインで対応します</span>
           </div>
         </div>
       </div>
@@ -1167,7 +1564,209 @@
   <!-- フッター -->
   <footer>
     <div class="footer-logo">跡見 仁俊</div>
-    <div class="footer-copy">© 2026 跡見仁俊 — AIクリエーター</div>
+    <div class="footer-copy">© 2026 跡見仁俊 — 現場を知るWeb制作者</div>
   </footer>
+
+  <!-- ========== AIチャットウィジェット ========== -->
+  <div id="chat-widget">
+
+    <!-- チャットウィンドウ -->
+    <div id="chat-window" role="dialog" aria-label="AIアシスタント">
+      <div class="chat-header">
+        <div class="chat-avatar">🤖</div>
+        <div class="chat-header-info">
+          <div class="chat-header-name">跡見仁俊 AIアシスタント</div>
+          <div class="chat-header-status">オンライン</div>
+        </div>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <!-- 初期メッセージ -->
+        <div class="chat-msg assistant">
+          <div class="chat-bubble">
+            こんにちは！跡見のAIアシスタントです😊<br>
+            経歴・できること・制作物のことなど、お気軽にご質問ください。
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <textarea
+          id="chat-input"
+          placeholder="メッセージを入力…"
+          rows="1"
+          aria-label="メッセージ入力"
+        ></textarea>
+        <button id="chat-send" aria-label="送信">
+          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 開閉ボタン -->
+    <button id="chat-toggle" aria-label="チャットを開く">
+      <!-- チャットアイコン -->
+      <svg class="icon-chat" viewBox="0 0 24 24">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <!-- 閉じるアイコン -->
+      <svg class="icon-close" viewBox="0 0 24 24">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+
+  <script>
+    /* ========== チャットボット ========== */
+    const chatWidget = document.getElementById('chat-widget');
+    const chatToggle = document.getElementById('chat-toggle');
+    const chatInput  = document.getElementById('chat-input');
+    const chatSend   = document.getElementById('chat-send');
+    const chatMsgs   = document.getElementById('chat-messages');
+
+    // バックエンドのURL（相対パスでローカル・Vercel 両対応）
+    const API_URL = '/api/chat';
+    // ポートフォリオ用の人格でAIに応答させる
+    const PERSONA = 'portfolio';
+
+    // 会話履歴（Claude API形式）
+    let history = [];
+
+    /* ---- ウィジェット開閉 ---- */
+    chatToggle.addEventListener('click', () => {
+      chatWidget.classList.toggle('open');
+      if (chatWidget.classList.contains('open')) {
+        chatInput.focus();
+      }
+    });
+
+    /* ---- テキストエリア自動高さ調整 ---- */
+    chatInput.addEventListener('input', () => {
+      chatInput.style.height = 'auto';
+      chatInput.style.height = Math.min(chatInput.scrollHeight, 96) + 'px';
+    });
+
+    /* ---- Enter送信（Shift+Enterで改行） ---- */
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    chatSend.addEventListener('click', sendMessage);
+
+    /* ---- メッセージバブルを追加 ---- */
+    function addBubble(role, text) {
+      const msg = document.createElement('div');
+      msg.className = `chat-msg ${role}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble';
+      bubble.textContent = text;
+      msg.appendChild(bubble);
+      chatMsgs.appendChild(msg);
+      scrollBottom();
+      return bubble;
+    }
+
+    /* ---- タイピングインジケーター ---- */
+    function showTyping() {
+      const msg = document.createElement('div');
+      msg.className = 'chat-msg assistant';
+      msg.id = 'typing-msg';
+      msg.innerHTML = `
+        <div class="chat-bubble typing-indicator">
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+        </div>`;
+      chatMsgs.appendChild(msg);
+      scrollBottom();
+    }
+
+    function hideTyping() {
+      const t = document.getElementById('typing-msg');
+      if (t) t.remove();
+    }
+
+    function scrollBottom() {
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    }
+
+    /* ---- メッセージ送信・ストリーミング受信 ---- */
+    async function sendMessage() {
+      const text = chatInput.value.trim();
+      if (!text) return;
+
+      // UI更新
+      chatInput.value = '';
+      chatInput.style.height = 'auto';
+      chatSend.disabled = true;
+      addBubble('user', text);
+
+      // 履歴に追加
+      history.push({ role: 'user', content: text });
+
+      showTyping();
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: history, persona: PERSONA }),
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+
+        hideTyping();
+
+        // ストリーミング受信
+        const assistantBubble = addBubble('assistant', '');
+        let assistantText = '';
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop(); // 未完了行をバッファに戻す
+
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            try {
+              const event = JSON.parse(line.slice(6));
+              if (event.type === 'text') {
+                assistantText += event.text;
+                assistantBubble.textContent = assistantText;
+                scrollBottom();
+              } else if (event.type === 'error') {
+                assistantBubble.textContent = 'エラーが発生しました。しばらく後にお試しください。';
+              }
+            } catch (_) { /* JSONパースエラーは無視 */ }
+          }
+        }
+
+        // 履歴に追加
+        if (assistantText) {
+          history.push({ role: 'assistant', content: assistantText });
+        }
+
+      } catch (err) {
+        hideTyping();
+        addBubble('assistant', '接続に失敗しました。時間をおいてもう一度お試しください。');
+        console.error('チャットエラー:', err);
+      } finally {
+        chatSend.disabled = false;
+        chatInput.focus();
+      }
+    }
+  </script>
 </body>
 </html>

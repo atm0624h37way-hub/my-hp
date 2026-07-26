@@ -2,6 +2,7 @@
 // POST /api/chat を受け取り、SSE ストリーミングで返す
 
 import Anthropic from '@anthropic-ai/sdk';
+import { PORTFOLIO_PROMPT } from './prompts.js';
 
 // A・I・E・P のシステムプロンプト（server.js と共通）
 const SYSTEM_PROMPT = `あなたはA・I・E・P（AIエキスパート）の公式AIアシスタントです。
@@ -56,11 +57,14 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { messages } = req.body;
+  const { messages, persona } = req.body;
 
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'messagesが必要です' });
   }
+
+  // ペルソナ切り替え（未指定は従来どおり会社アシスタント）
+  const systemPrompt = persona === 'portfolio' ? PORTFOLIO_PROMPT : SYSTEM_PROMPT;
 
   if (!process.env.ANTHROPIC_API_KEY) {
     return res.status(500).json({ error: 'ANTHROPIC_API_KEYが設定されていません' });
@@ -77,7 +81,7 @@ export default async function handler(req, res) {
     const stream = anthropic.messages.stream({
       model: 'claude-opus-4-7',
       max_tokens: 1024,
-      system: SYSTEM_PROMPT,
+      system: systemPrompt,
       messages,
     });
 
