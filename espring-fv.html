@@ -41,8 +41,8 @@
     border-radius:999px;padding:7px 16px;transition:.15s;
   }
   .switch button:hover{background:#474747}
-  body[data-bg="a"] .btn-a,
-  body[data-bg="b"] .btn-b{background:var(--aqua);color:#0a2b32;border-color:var(--aqua);font-weight:700}
+  body[data-bg="c"] .btn-c,
+  body[data-bg="d"] .btn-d{background:var(--aqua);color:#0a2b32;border-color:var(--aqua);font-weight:700}
 
   /* ===== ファーストビュー ===== */
   .fv{
@@ -57,8 +57,44 @@
       linear-gradient(170deg,var(--teal-deep) 0%,var(--teal) 55%,#0a5866 100%);
   }
   .bg-b svg{width:100%;height:100%;display:block}
-  body[data-bg="a"] .bg-b{opacity:0}
-  body[data-bg="b"] .bg-a{opacity:0}
+
+  /* 背景C：山間の清流（写真・Pexels／上高地・梓川） */
+  .bg-c{
+    background-image:url("espring-fv-bg.jpg");
+    background-size:cover;
+    background-position:center 45%;
+  }
+  /* 明るさを保ちつつ、見出し部分だけ文字が読める程度に締める */
+  .bg-c::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,
+      rgba(6,44,58,.52) 0%,
+      rgba(6,44,58,.26) 34%,
+      rgba(6,44,58,.10) 58%,
+      rgba(6,44,58,.30) 100%);
+  }
+  /* 背景D：森の中の渓流・手前に流れ（写真・Pexels）
+     水がやや茶色く写るため、明度を上げ、下半分に薄い青緑を重ねて“澄み”を補正 */
+  .bg-d{
+    background-image:url("espring-fv-bg2.jpg");
+    background-size:cover;
+    background-position:center 52%;
+    filter:brightness(1.10) saturate(1.06) contrast(1.03);
+  }
+  .bg-d::after{
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(180deg,
+        rgba(6,44,58,.50) 0%,
+        rgba(6,44,58,.20) 32%,
+        rgba(10,80,95,.10) 58%,
+        rgba(18,110,130,.26) 100%);
+  }
+
+  body[data-bg="a"] .bg-b,body[data-bg="a"] .bg-c,body[data-bg="a"] .bg-d{opacity:0}
+  body[data-bg="b"] .bg-a,body[data-bg="b"] .bg-c,body[data-bg="b"] .bg-d{opacity:0}
+  body[data-bg="c"] .bg-a,body[data-bg="c"] .bg-b,body[data-bg="c"] .bg-d{opacity:0}
+  body[data-bg="d"] .bg-a,body[data-bg="d"] .bg-b,body[data-bg="d"] .bg-c{opacity:0}
 
   .fv::after{
     content:"";position:absolute;left:-10%;right:-10%;bottom:-1px;height:70px;
@@ -134,6 +170,28 @@
     background:rgba(255,255,255,.62);border:1px solid rgba(13,110,125,.24);color:#2b4a52;
   }
 
+  /* --- 背景C・D：写真（白文字）--- */
+  body[data-bg="c"] .fv,body[data-bg="d"] .fv{color:#fff}
+  body[data-bg="c"] .eyebrow,body[data-bg="d"] .eyebrow{
+    border:1px solid rgba(255,255,255,.5);background:rgba(0,0,0,.18);
+    backdrop-filter:blur(3px);
+  }
+  body[data-bg="c"] h1,body[data-bg="d"] h1{text-shadow:0 2px 20px rgba(0,0,0,.5)}
+  body[data-bg="c"] h1 .accent,body[data-bg="d"] h1 .accent{
+    color:#ffe9b8;border-bottom:2px solid rgba(255,233,184,.6);
+  }
+  body[data-bg="c"] .lead,body[data-bg="d"] .lead{
+    color:rgba(255,255,255,.94);text-shadow:0 1px 12px rgba(0,0,0,.55);
+  }
+  body[data-bg="c"] .visual,body[data-bg="d"] .visual{
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.34);color:rgba(255,255,255,.82);
+  }
+  body[data-bg="c"] .trust span,body[data-bg="d"] .trust span{
+    background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.3);
+    backdrop-filter:blur(3px);
+  }
+
   /* ===== この先の構成 ===== */
   .plan{max-width:760px;margin:0 auto;padding:46px 22px 60px}
   .plan h2{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:19px;font-weight:600;margin-bottom:6px}
@@ -168,16 +226,22 @@
   }
 </style>
 </head>
-<body data-bg="b">
+<body data-bg="d">
 
 <div class="mockbar">
   提案用モックアップ／<b>ファーストビュー案</b>　※納品物ではありません。数値・写真は資料から差し替え前提です
 </div>
 
-<!-- 背景A/Bの切替バーは、B採用決定（2026/07/27・社長判断）につき撤去。
-     Aに戻したい場合は <body data-bg="b"> を data-bg="a" に変えるだけでOK（CSSは両方残してある）。 -->
+<!-- 背景は D（森の渓流・手前に流れ）で確定（2026/07/27・社長判断）。比較用スイッチは撤去済み。
+     戻したい場合：<body data-bg="d"> の値を変え、対応する背景 div を復活させる。
+       c = 上高地・梓川（espring-fv-bg.jpg が別途必要）／ b = 自然光SVG／ a = 深い水
+     ※ C の div は、未使用画像を読み込ませないため削除してある（表示速度のため）。 -->
+
 
 <section class="fv">
+  <!-- 背景D：森の中の渓流・手前に流れ（写真・Pexels） -->
+  <div class="bg bg-d"></div>
+
   <!-- 背景A：深い水 -->
   <div class="bg bg-a"></div>
 
@@ -308,7 +372,9 @@
     水環境に関する記述は、ご指定の3点（製品ガイド／優位性／NSF性能データシート）からのみ引用し、
     出典を明記します。推測や誇張は一切入れません。
     本モックの数値枠が空欄なのは、まだ資料の実数を反映していないためです。
-    背景ビジュアルはすべてオリジナル制作（他社商品の画像・意匠は使用していません）。
+    背景写真は商用利用可のフリー素材（Pexels）を使用した仮置きです。
+    森の中を手前へ流れてくる渓流を選びました。製品を語る前に「水そのもの」を見せる意図です。
+    本番ではクライアント様ご指定の画像、またはご承認いただいた素材に差し替えます。
   </div>
 </section>
 
