@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>跡見仁俊 | AI Engineer</title>
+  <title>跡見仁俊 | 現場を知るWeb制作者</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;700&display=swap');
 
@@ -118,15 +118,23 @@
     }
 
     .header-text .role {
-      margin-top: 8px;
-      font-size: 0.9rem;
-      font-weight: 400;
-      letter-spacing: 0.2em;
+      margin-top: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
       color: var(--accent);
-      text-transform: uppercase;
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .header-text .tagline {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      line-height: 1.6;
+      color: var(--muted);
     }
 
     .role-dot {
@@ -229,6 +237,113 @@
       color: #f472b6;
       border-color: rgba(244,114,182,0.35);
       background: rgba(244,114,182,0.06);
+    }
+
+    .badge-amber {
+      color: #fbbf24;
+      border-color: rgba(251,191,36,0.35);
+      background: rgba(251,191,36,0.06);
+    }
+
+    /* ── スキル：カテゴリごと ── */
+    .skill-group + .skill-group { margin-top: 22px; }
+
+    .skill-group-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: #b0bcd4;
+      margin-bottom: 10px;
+    }
+
+    /* ── WORKS ── */
+    .section-note {
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .work-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 20px;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+    .work-card + .work-card { margin-top: 14px; }
+
+    .work-card:hover {
+      background: rgba(0,240,255,0.05);
+      border-color: rgba(0,240,255,0.22);
+      transform: translateY(-3px);
+    }
+
+    .work-title {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .work-desc {
+      font-size: 0.9rem;
+      line-height: 1.85;
+      color: #b0bcd4;
+      font-weight: 300;
+    }
+
+    .work-meta {
+      margin-top: 12px;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    /* ── 強み ── */
+    .strength-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 20px;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+    .strength-item + .strength-item { margin-top: 14px; }
+
+    .strength-item:hover {
+      background: rgba(123,97,255,0.06);
+      border-color: rgba(123,97,255,0.25);
+      transform: translateY(-3px);
+    }
+
+    .strength-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .strength-num {
+      font-size: 1.15rem;
+      color: #a78bfa;
+      line-height: 1;
+    }
+
+    .strength-desc {
+      font-size: 0.9rem;
+      line-height: 1.85;
+      color: #b0bcd4;
+      font-weight: 300;
     }
 
     /* ── 趣味 ── */
@@ -377,8 +492,9 @@
         <h1>跡見 仁俊</h1>
         <p class="role">
           <span class="role-dot"></span>
-          AI Engineer
+          現場を知るWeb制作者
         </p>
+        <p class="tagline">物流・製造・営業の現場から、Webへ。</p>
       </div>
     </header>
 
@@ -386,25 +502,100 @@
     <section>
       <p class="section-label">About</p>
       <p class="about-text">
-        AIエンジニアとして、機械学習・自然言語処理の領域で活動しています。<br />
-        テクノロジーで世界をちょっとだけ便利にすることを目標に、<br />
-        日々コードを書いてはボーっとして、おいしいものを食べてまたコードを書く。<br />
-        そんな毎日を送っています。
+        自動車の営業を5年、工場でNC加工プログラムを6年。いまは配送ドライバーとして、毎日現場で荷物を運んでいます。外壁塗装の現場に立ったこともあります。<br /><br />
+        どの現場にも共通していたのは、「まだ紙とExcelと電話で回している仕事」でした。それを自分で軽くしたくて、Googleフォームとスプレッドシートで日報の記録・集計・通知を自動化する仕組みを独学で作りました。そこからWeb制作に広がっています。<br /><br />
+        デザインの学校を出たわけでも、制作会社にいたわけでもありません。ただ、「使う人が現場のどこで手を止めるか」は、たぶん誰よりも想像がつきます。
       </p>
     </section>
 
     <!-- スキル -->
     <section>
       <p class="section-label">Skills</p>
-      <div class="skills-grid">
-        <span class="skill-badge badge-cyan">Python</span>
-        <span class="skill-badge badge-cyan">Machine Learning</span>
-        <span class="skill-badge badge-cyan">LLM / RAG</span>
-        <span class="skill-badge badge-purple">PyTorch</span>
-        <span class="skill-badge badge-purple">Transformers</span>
-        <span class="skill-badge badge-purple">FastAPI</span>
-        <span class="skill-badge badge-pink">Prompt Engineering</span>
-        <span class="skill-badge badge-pink">Claude API</span>
+      <div class="skill-group">
+        <p class="skill-group-label">フロントエンド</p>
+        <div class="skills-grid">
+          <span class="skill-badge badge-cyan">HTML / CSS</span>
+          <span class="skill-badge badge-cyan">JavaScript</span>
+          <span class="skill-badge badge-cyan">TypeScript</span>
+          <span class="skill-badge badge-cyan">Next.js</span>
+          <span class="skill-badge badge-cyan">Tailwind CSS</span>
+          <span class="skill-badge badge-cyan">レスポンシブ対応</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <p class="skill-group-label">AI・実装</p>
+        <div class="skills-grid">
+          <span class="skill-badge badge-purple">Claude API</span>
+          <span class="skill-badge badge-purple">チャットボット実装</span>
+          <span class="skill-badge badge-purple">Claude Code を使った開発</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <p class="skill-group-label">公開・運用</p>
+        <div class="skills-grid">
+          <span class="skill-badge badge-pink">Vercel デプロイ</span>
+          <span class="skill-badge badge-pink">Git / GitHub</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <p class="skill-group-label">業務自動化</p>
+        <div class="skills-grid">
+          <span class="skill-badge badge-amber">Googleフォーム</span>
+          <span class="skill-badge badge-amber">Googleスプレッドシート</span>
+          <span class="skill-badge badge-amber">GAS</span>
+          <span class="skill-badge badge-amber">自動集計 / 条件分岐メール通知</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORKS -->
+    <section>
+      <p class="section-label">Works —— 自主制作</p>
+      <p class="section-note">※クライアント納品実績はこれからです。以下はすべて自分で企画・制作したものです。</p>
+
+      <div class="work-card">
+        <p class="work-title">cafe-portfolio（カフェのホームページ）</p>
+        <p class="work-desc">
+          架空のカフェを想定して、企画から公開まで一人で制作した1ページ完結型サイト。Next.js / TypeScript / Tailwind CSS で構築し、Vercelで公開しています。「スマホで見て、そのまま来店したくなるか」を基準に情報の順番を組みました。
+        </p>
+        <p class="work-meta">［ 自主制作 / Next.js・TypeScript・Tailwind CSS・Vercel ］</p>
+      </div>
+
+      <div class="work-card">
+        <p class="work-title">このポートフォリオサイト</p>
+        <p class="work-desc">
+          いま見ていただいているこのサイト自体も、自分で設計・制作しました。Claude APIを組み込んだチャットボットを設置し、サイト上で質問に答えられるようにしています。「作れます」と言うより、動いているものを見てもらうのが早いと思ったので。
+        </p>
+        <p class="work-meta">［ 自主制作 / Claude API・チャットボット実装・Vercel ］</p>
+      </div>
+    </section>
+
+    <!-- 強み -->
+    <section>
+      <p class="section-label">Strengths</p>
+
+      <div class="strength-item">
+        <p class="strength-title"><span class="strength-num">①</span>現場を知っている</p>
+        <p class="strength-desc">
+          物流・製造・営業・塗装、どれも自分の体で経験してきました。「なぜその作業が減らせないのか」を、聞く前からある程度想像できます。
+        </p>
+      </div>
+
+      <div class="strength-item">
+        <p class="strength-title"><span class="strength-num">②</span>使う人の目線で作る</p>
+        <p class="strength-desc">
+          現場の人はパソコンの前に座っていません。片手で、立ったまま、急いで触ります。だから見た目より先に「迷わず押せるか」を考えて設計します。
+        </p>
+      </div>
+
+      <div class="strength-item">
+        <p class="strength-title"><span class="strength-num">③</span>AIを道具として使いこなす</p>
+        <p class="strength-desc">
+          Claude Codeを使い、企画から実装・公開までを一人で回しています。だから小さく速く作って、見てもらいながら直せます。
+        </p>
       </div>
     </section>
 
@@ -458,7 +649,7 @@
       </a>
     </section>
 
-    <footer>© 2026 跡見仁俊 — AI Engineer</footer>
+    <footer>© 2026 跡見仁俊 — 現場を知るWeb制作者</footer>
   </main>
 </body>
 </html>
