@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import dotenv from 'dotenv';
 import { PORTFOLIO_PROMPT } from './api/prompts.js';
+import { getClientIp, checkRateLimit, validateMessages } from './api/rate-limit.js';
 
 dotenv.config();
 
@@ -85,8 +86,20 @@ A: 銀行振込一括払い・クレジットカード一括払い・36回まで
 app.post('/api/chat', async (req, res) => {
   const { messages, persona } = req.body;
 
-  if (!messages || !Array.isArray(messages)) {
-    return res.status(400).json({ error: 'messagesが必要です' });
+  // レート制限（IPごと）。無効なリクエストの連打も抑えたいので検証より前に置く
+  const limit = checkRateLimit(getClientIp(req));
+  if (!limit.allowed) {
+    res.setHeader('Retry-After', String(limit.retryAfterSec));
+    return res.status(429).json({
+      error: `リクエストが多すぎます。${limit.retryAfterSec}秒ほど待ってからお試しください`,
+      retryAfterSec: limit.retryAfterSec,
+    });
+  }
+
+  // 入力の形と量をチェック（巨大な履歴でトークンを浪費されるのを防ぐ）
+  const valid = validateMessages(messages);
+  if (!valid.ok) {
+    return res.status(400).json({ error: valid.error });
   }
 
   // ペルソナ切り替え（未指定は従来どおり会社アシスタント）

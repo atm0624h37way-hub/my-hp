@@ -1,0 +1,13 @@
+# Vercelへのアップロードから除外するもの
+# （APIキーなどの秘密情報が絶対に上がらないようにする）
+.env
+.env.*
+!.env.example
+
+node_modules
+.git
+.claude
+
+# ローカル開発専用サーバー（Vercelでは api/chat.js が使われる）
+server.js
+CLAUDE.md

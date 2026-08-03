@@ -1724,8 +1724,17 @@
           body: JSON.stringify({ messages: history, persona: PERSONA }),
         });
 
+        // レート制限（429）や入力エラー（400）は、サーバーの説明文をそのまま出す
         if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
+          let msg = '接続に失敗しました。時間をおいてもう一度お試しください。';
+          try {
+            const errBody = await res.json();
+            if (errBody && errBody.error) msg = errBody.error;
+          } catch (_) { /* JSONでなければ既定の文言 */ }
+          hideTyping();
+          addBubble('assistant', msg);
+          history.pop(); // 送れなかった分は履歴に残さない
+          return;
         }
 
         hideTyping();
