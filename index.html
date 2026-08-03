@@ -305,6 +305,22 @@
       color: var(--muted);
     }
 
+    .work-link {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      text-decoration: none;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .work-link:hover {
+      opacity: 0.85;
+      transform: translateX(3px);
+    }
+
     /* ── 強み ── */
     .strength-item {
       background: rgba(255,255,255,0.03);
@@ -822,6 +838,9 @@
           架空のカフェを想定して、企画から公開まで一人で制作した1ページ完結型サイト。Next.js / TypeScript / Tailwind CSS で構築し、Vercelで公開しています。「スマホで見て、そのまま来店したくなるか」を基準に情報の順番を組みました。
         </p>
         <p class="work-meta">［ 自主制作 / Next.js・TypeScript・Tailwind CSS・Vercel ］</p>
+        <a class="work-link"
+           href="https://cafe-portfolio-atm0624h37way-hubs-projects.vercel.app/"
+           target="_blank" rel="noopener noreferrer">サイトを見る →</a>
       </div>
 
       <div class="work-card">
